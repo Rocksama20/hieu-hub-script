@@ -17,6 +17,7 @@ local TabBar = Instance.new("Frame")
 local ScriptsTab = Instance.new("TextButton")
 local ExecutorTab = Instance.new("TextButton")
 local MiscTab = Instance.new("TextButton")
+local TechTab = Instance.new("TextButton")
 local ContentFrame = Instance.new("Frame")
 
 local correctKey = "Hieuhub20"
@@ -191,12 +192,12 @@ ScriptsTab.Name = "ScriptsTab"
 ScriptsTab.Parent = TabBar
 ScriptsTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
 ScriptsTab.BorderSizePixel = 0
-ScriptsTab.Position = UDim2.new(0, 5, 0, 7)
-ScriptsTab.Size = UDim2.new(0.31, 0, 0, 31)
+ScriptsTab.Position = UDim2.new(0, 3, 0, 7)
+ScriptsTab.Size = UDim2.new(0.23, 0, 0, 31)
 ScriptsTab.Font = Enum.Font.GothamBold
 ScriptsTab.Text = "📜 Scripts"
 ScriptsTab.TextColor3 = Color3.fromRGB(255, 255, 255)
-ScriptsTab.TextSize = 14
+ScriptsTab.TextSize = 13
 
 local ScriptsTabCorner = Instance.new("UICorner")
 ScriptsTabCorner.CornerRadius = UDim.new(0, 6)
@@ -207,28 +208,44 @@ ExecutorTab.Name = "ExecutorTab"
 ExecutorTab.Parent = TabBar
 ExecutorTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
 ExecutorTab.BorderSizePixel = 0
-ExecutorTab.Position = UDim2.new(0.34, 0, 0, 7)
-ExecutorTab.Size = UDim2.new(0.31, 0, 0, 31)
+ExecutorTab.Position = UDim2.new(0.25, 0, 0, 7)
+ExecutorTab.Size = UDim2.new(0.23, 0, 0, 31)
 ExecutorTab.Font = Enum.Font.GothamBold
 ExecutorTab.Text = "⚙️ Executor"
 ExecutorTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-ExecutorTab.TextSize = 14
+ExecutorTab.TextSize = 13
 
 local ExecutorTabCorner = Instance.new("UICorner")
 ExecutorTabCorner.CornerRadius = UDim.new(0, 6)
 ExecutorTabCorner.Parent = ExecutorTab
+
+-- Tech Tab
+TechTab.Name = "TechTab"
+TechTab.Parent = TabBar
+TechTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+TechTab.BorderSizePixel = 0
+TechTab.Position = UDim2.new(0.5, 0, 0, 7)
+TechTab.Size = UDim2.new(0.23, 0, 0, 31)
+TechTab.Font = Enum.Font.GothamBold
+TechTab.Text = "💻 Tech"
+TechTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+TechTab.TextSize = 13
+
+local TechTabCorner = Instance.new("UICorner")
+TechTabCorner.CornerRadius = UDim.new(0, 6)
+TechTabCorner.Parent = TechTab
 
 -- Misc Tab
 MiscTab.Name = "MiscTab"
 MiscTab.Parent = TabBar
 MiscTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
 MiscTab.BorderSizePixel = 0
-MiscTab.Position = UDim2.new(0.68, 0, 0, 7)
-MiscTab.Size = UDim2.new(0.29, 0, 0, 31)
+MiscTab.Position = UDim2.new(0.75, 0, 0, 7)
+MiscTab.Size = UDim2.new(0.23, 0, 0, 31)
 MiscTab.Font = Enum.Font.GothamBold
 MiscTab.Text = "🔧 Misc"
 MiscTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-MiscTab.TextSize = 14
+MiscTab.TextSize = 13
 
 local MiscTabCorner = Instance.new("UICorner")
 MiscTabCorner.CornerRadius = UDim.new(0, 6)
@@ -347,7 +364,45 @@ local ExecuteCorner = Instance.new("UICorner")
 ExecuteCorner.CornerRadius = UDim.new(0, 8)
 ExecuteCorner.Parent = ExecuteButton
 
--- Misc Content (Tab 3)
+-- Tech Content (Tab 3)
+local TechContent = Instance.new("Frame")
+TechContent.Name = "TechContent"
+TechContent.Parent = ContentFrame
+TechContent.BackgroundTransparency = 1
+TechContent.Size = UDim2.new(1, 0, 1, 0)
+TechContent.Visible = false
+
+-- MinhNhat Hub Button
+local MinhNhatButton = Instance.new("TextButton")
+MinhNhatButton.Name = "MinhNhatButton"
+MinhNhatButton.Parent = TechContent
+MinhNhatButton.BackgroundColor3 = Color3.fromRGB(255, 50, 150)
+MinhNhatButton.BorderSizePixel = 0
+MinhNhatButton.Position = UDim2.new(0, 0, 0, 0)
+MinhNhatButton.Size = UDim2.new(1, 0, 0, 60)
+MinhNhatButton.Font = Enum.Font.GothamBold
+MinhNhatButton.Text = "💻 MinhNhat HUB V9"
+MinhNhatButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+MinhNhatButton.TextSize = 18
+
+local MinhNhatCorner = Instance.new("UICorner")
+MinhNhatCorner.CornerRadius = UDim.new(0, 10)
+MinhNhatCorner.Parent = MinhNhatButton
+
+-- Description Label
+local TechDesc = Instance.new("TextLabel")
+TechDesc.Name = "TechDesc"
+TechDesc.Parent = TechContent
+TechDesc.BackgroundTransparency = 1
+TechDesc.Position = UDim2.new(0, 0, 0, 70)
+TechDesc.Size = UDim2.new(1, 0, 0, 40)
+TechDesc.Font = Enum.Font.Gotham
+TechDesc.Text = "Advanced tech hub with multiple features"
+TechDesc.TextColor3 = Color3.fromRGB(200, 200, 200)
+TechDesc.TextSize = 14
+TechDesc.TextXAlignment = Enum.TextXAlignment.Center
+
+-- Misc Content (Tab 4)
 local MiscContent = Instance.new("Frame")
 MiscContent.Name = "MiscContent"
 MiscContent.Parent = ContentFrame
@@ -532,6 +587,18 @@ CreditsInfo.TextXAlignment = Enum.TextXAlignment.Left
 CreditsInfo.TextYAlignment = Enum.TextYAlignment.Top
 
 -- Functions
+-- MinhNhat Hub Button
+MinhNhatButton.MouseButton1Click:Connect(function()
+    local success, err = pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/MinhNhatHUB/MinhNhat/refs/heads/main/MinhNhatHUB%20V9.lua"))()
+    end)
+    if success then
+        print("MinhNhat HUB V9 loaded successfully!")
+    else
+        warn("Error loading MinhNhat HUB: " .. tostring(err))
+    end
+end)
+
 -- Color theme switching
 for name, btnData in pairs(colorButtons) do
     btnData.btn.MouseButton1Click:Connect(function()
@@ -640,11 +707,14 @@ end)
 ScriptsTab.MouseButton1Click:Connect(function()
     ScriptsContent.Visible = true
     ExecutorContent.Visible = false
+    TechContent.Visible = false
     MiscContent.Visible = false
     ScriptsTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
     ScriptsTab.TextColor3 = Color3.fromRGB(255, 255, 255)
     ExecutorTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
     ExecutorTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+    TechTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    TechTab.TextColor3 = Color3.fromRGB(200, 200, 200)
     MiscTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
     MiscTab.TextColor3 = Color3.fromRGB(200, 200, 200)
 end)
@@ -652,11 +722,29 @@ end)
 ExecutorTab.MouseButton1Click:Connect(function()
     ScriptsContent.Visible = false
     ExecutorContent.Visible = true
+    TechContent.Visible = false
     MiscContent.Visible = false
     ExecutorTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
     ExecutorTab.TextColor3 = Color3.fromRGB(255, 255, 255)
     ScriptsTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
     ScriptsTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+    TechTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    TechTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+    MiscTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    MiscTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+end)
+
+TechTab.MouseButton1Click:Connect(function()
+    ScriptsContent.Visible = false
+    ExecutorContent.Visible = false
+    TechContent.Visible = true
+    MiscContent.Visible = false
+    TechTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
+    TechTab.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ScriptsTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    ScriptsTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+    ExecutorTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    ExecutorTab.TextColor3 = Color3.fromRGB(200, 200, 200)
     MiscTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
     MiscTab.TextColor3 = Color3.fromRGB(200, 200, 200)
 end)
@@ -664,6 +752,7 @@ end)
 MiscTab.MouseButton1Click:Connect(function()
     ScriptsContent.Visible = false
     ExecutorContent.Visible = false
+    TechContent.Visible = false
     MiscContent.Visible = true
     MiscTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
     MiscTab.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -671,6 +760,8 @@ MiscTab.MouseButton1Click:Connect(function()
     ScriptsTab.TextColor3 = Color3.fromRGB(200, 200, 200)
     ExecutorTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
     ExecutorTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+    TechTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    TechTab.TextColor3 = Color3.fromRGB(200, 200, 200)
 end)
 
 -- Toggle với phím K
