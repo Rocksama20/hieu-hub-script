@@ -362,7 +362,7 @@ DiscordFrame.Parent = MiscContent
 DiscordFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
 DiscordFrame.BorderSizePixel = 0
 DiscordFrame.Position = UDim2.new(0, 0, 0, 0)
-DiscordFrame.Size = UDim2.new(1, 0, 0, 120)
+DiscordFrame.Size = UDim2.new(1, 0, 0, 90)
 
 local DiscordFrameCorner = Instance.new("UICorner")
 DiscordFrameCorner.CornerRadius = UDim.new(0, 10)
@@ -374,25 +374,12 @@ DiscordTitle.Name = "DiscordTitle"
 DiscordTitle.Parent = DiscordFrame
 DiscordTitle.BackgroundTransparency = 1
 DiscordTitle.Position = UDim2.new(0, 15, 0, 10)
-DiscordTitle.Size = UDim2.new(1, -30, 0, 30)
+DiscordTitle.Size = UDim2.new(1, -30, 0, 25)
 DiscordTitle.Font = Enum.Font.GothamBold
-DiscordTitle.Text = "💬 Join Our Discord Server"
+DiscordTitle.Text = "💬 Join Discord Server"
 DiscordTitle.TextColor3 = Color3.fromRGB(88, 101, 242)
-DiscordTitle.TextSize = 18
+DiscordTitle.TextSize = 16
 DiscordTitle.TextXAlignment = Enum.TextXAlignment.Left
-
--- Discord Info
-local DiscordInfo = Instance.new("TextLabel")
-DiscordInfo.Name = "DiscordInfo"
-DiscordInfo.Parent = DiscordFrame
-DiscordInfo.BackgroundTransparency = 1
-DiscordInfo.Position = UDim2.new(0, 15, 0, 45)
-DiscordInfo.Size = UDim2.new(1, -30, 0, 20)
-DiscordInfo.Font = Enum.Font.Gotham
-DiscordInfo.Text = "Get updates, support, and scripts!"
-DiscordInfo.TextColor3 = Color3.fromRGB(200, 200, 200)
-DiscordInfo.TextSize = 14
-DiscordInfo.TextXAlignment = Enum.TextXAlignment.Left
 
 -- Discord Button
 local DiscordButton = Instance.new("TextButton")
@@ -400,7 +387,7 @@ DiscordButton.Name = "DiscordButton"
 DiscordButton.Parent = DiscordFrame
 DiscordButton.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
 DiscordButton.BorderSizePixel = 0
-DiscordButton.Position = UDim2.new(0, 15, 0, 75)
+DiscordButton.Position = UDim2.new(0, 15, 0, 45)
 DiscordButton.Size = UDim2.new(1, -30, 0, 35)
 DiscordButton.Font = Enum.Font.GothamBold
 DiscordButton.Text = "📱 Copy Discord Link"
@@ -411,14 +398,107 @@ local DiscordBtnCorner = Instance.new("UICorner")
 DiscordBtnCorner.CornerRadius = UDim.new(0, 8)
 DiscordBtnCorner.Parent = DiscordButton
 
+-- Theme Color Frame
+local ThemeFrame = Instance.new("Frame")
+ThemeFrame.Name = "ThemeFrame"
+ThemeFrame.Parent = MiscContent
+ThemeFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+ThemeFrame.BorderSizePixel = 0
+ThemeFrame.Position = UDim2.new(0, 0, 0, 100)
+ThemeFrame.Size = UDim2.new(1, 0, 0, 85)
+
+local ThemeFrameCorner = Instance.new("UICorner")
+ThemeFrameCorner.CornerRadius = UDim.new(0, 10)
+ThemeFrameCorner.Parent = ThemeFrame
+
+-- Theme Title
+local ThemeTitle = Instance.new("TextLabel")
+ThemeTitle.Name = "ThemeTitle"
+ThemeTitle.Parent = ThemeFrame
+ThemeTitle.BackgroundTransparency = 1
+ThemeTitle.Position = UDim2.new(0, 15, 0, 10)
+ThemeTitle.Size = UDim2.new(1, -30, 0, 25)
+ThemeTitle.Font = Enum.Font.GothamBold
+ThemeTitle.Text = "🎨 Border Color Theme"
+ThemeTitle.TextColor3 = Color3.fromRGB(255, 100, 255)
+ThemeTitle.TextSize = 16
+ThemeTitle.TextXAlignment = Enum.TextXAlignment.Left
+
+-- Color Buttons Container
+local ColorContainer = Instance.new("Frame")
+ColorContainer.Name = "ColorContainer"
+ColorContainer.Parent = ThemeFrame
+ColorContainer.BackgroundTransparency = 1
+ColorContainer.Position = UDim2.new(0, 15, 0, 40)
+ColorContainer.Size = UDim2.new(1, -30, 0, 35)
+
+-- Color data
+local colors = {
+    {name = "Rainbow", color = nil, isRainbow = true},
+    {name = "Red", color = Color3.fromRGB(255, 50, 50)},
+    {name = "Blue", color = Color3.fromRGB(50, 150, 255)},
+    {name = "Green", color = Color3.fromRGB(50, 255, 100)},
+    {name = "Purple", color = Color3.fromRGB(180, 50, 255)},
+    {name = "Orange", color = Color3.fromRGB(255, 140, 0)},
+    {name = "Pink", color = Color3.fromRGB(255, 105, 180)},
+    {name = "Cyan", color = Color3.fromRGB(0, 255, 255)},
+}
+
+local colorButtons = {}
+local currentTheme = "Rainbow"
+local rainbowEnabled = true
+
+for i, colorData in ipairs(colors) do
+    local colorBtn = Instance.new("TextButton")
+    colorBtn.Name = colorData.name .. "Btn"
+    colorBtn.Parent = ColorContainer
+    colorBtn.BackgroundColor3 = colorData.color or Color3.fromRGB(100, 100, 100)
+    colorBtn.BorderSizePixel = 0
+    local spacing = 2
+    local btnWidth = (1 / #colors) - (spacing / #colors * (#colors - 1) / 430)
+    colorBtn.Size = UDim2.new(btnWidth, 0, 1, 0)
+    colorBtn.Position = UDim2.new((i - 1) * (btnWidth + spacing / 430), 0, 0, 0)
+    colorBtn.Text = ""
+    
+    local colorBtnCorner = Instance.new("UICorner")
+    colorBtnCorner.CornerRadius = UDim.new(0, 6)
+    colorBtnCorner.Parent = colorBtn
+    
+    -- Rainbow gradient for rainbow button
+    if colorData.isRainbow then
+        local gradient = Instance.new("UIGradient")
+        gradient.Parent = colorBtn
+        gradient.Color = ColorSequence.new{
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 0, 0)),
+            ColorSequenceKeypoint.new(0.17, Color3.fromRGB(255, 127, 0)),
+            ColorSequenceKeypoint.new(0.33, Color3.fromRGB(255, 255, 0)),
+            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 255, 0)),
+            ColorSequenceKeypoint.new(0.67, Color3.fromRGB(0, 0, 255)),
+            ColorSequenceKeypoint.new(0.83, Color3.fromRGB(75, 0, 130)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(148, 0, 211))
+        }
+        gradient.Rotation = 45
+    end
+    
+    -- Selection indicator
+    local selectionStroke = Instance.new("UIStroke")
+    selectionStroke.Parent = colorBtn
+    selectionStroke.Thickness = 3
+    selectionStroke.Color = Color3.fromRGB(255, 255, 255)
+    selectionStroke.Transparency = colorData.isRainbow and 0 or 1
+    selectionStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    
+    colorButtons[colorData.name] = {btn = colorBtn, stroke = selectionStroke, data = colorData}
+end
+
 -- Credits Frame
 local CreditsFrame = Instance.new("Frame")
 CreditsFrame.Name = "CreditsFrame"
 CreditsFrame.Parent = MiscContent
 CreditsFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
 CreditsFrame.BorderSizePixel = 0
-CreditsFrame.Position = UDim2.new(0, 0, 0, 135)
-CreditsFrame.Size = UDim2.new(1, 0, 0, 100)
+CreditsFrame.Position = UDim2.new(0, 0, 0, 195)
+CreditsFrame.Size = UDim2.new(1, 0, 0, 70)
 
 local CreditsFrameCorner = Instance.new("UICorner")
 CreditsFrameCorner.CornerRadius = UDim.new(0, 10)
@@ -430,7 +510,7 @@ CreditsTitle.Name = "CreditsTitle"
 CreditsTitle.Parent = CreditsFrame
 CreditsTitle.BackgroundTransparency = 1
 CreditsTitle.Position = UDim2.new(0, 15, 0, 10)
-CreditsTitle.Size = UDim2.new(1, -30, 0, 25)
+CreditsTitle.Size = UDim2.new(1, -30, 0, 20)
 CreditsTitle.Font = Enum.Font.GothamBold
 CreditsTitle.Text = "⭐ Credits"
 CreditsTitle.TextColor3 = Color3.fromRGB(255, 215, 0)
@@ -442,16 +522,40 @@ local CreditsInfo = Instance.new("TextLabel")
 CreditsInfo.Name = "CreditsInfo"
 CreditsInfo.Parent = CreditsFrame
 CreditsInfo.BackgroundTransparency = 1
-CreditsInfo.Position = UDim2.new(0, 15, 0, 40)
-CreditsInfo.Size = UDim2.new(1, -30, 0, 50)
+CreditsInfo.Position = UDim2.new(0, 15, 0, 35)
+CreditsInfo.Size = UDim2.new(1, -30, 0, 30)
 CreditsInfo.Font = Enum.Font.Gotham
-CreditsInfo.Text = "Created by: Hieu\nVersion: 1.0\nThanks for using Hieu Hub! 💖"
+CreditsInfo.Text = "Created by: Hieu | Version: 1.0 | Thanks for using! 💖"
 CreditsInfo.TextColor3 = Color3.fromRGB(200, 200, 200)
-CreditsInfo.TextSize = 13
+CreditsInfo.TextSize = 12
 CreditsInfo.TextXAlignment = Enum.TextXAlignment.Left
 CreditsInfo.TextYAlignment = Enum.TextYAlignment.Top
 
 -- Functions
+-- Color theme switching
+for name, btnData in pairs(colorButtons) do
+    btnData.btn.MouseButton1Click:Connect(function()
+        -- Update selection
+        for n, b in pairs(colorButtons) do
+            b.stroke.Transparency = 1
+        end
+        btnData.stroke.Transparency = 0
+        
+        currentTheme = name
+        rainbowEnabled = btnData.data.isRainbow
+        
+        if not rainbowEnabled then
+            -- Apply static color
+            pcall(function()
+                RainbowBorder.Color = btnData.data.color
+                MainRainbowBorder.Color = btnData.data.color
+            end)
+        end
+        
+        print("Theme changed to: " .. name)
+    end)
+end
+
 DiscordButton.MouseButton1Click:Connect(function()
     local success = pcall(function()
         setclipboard("https://discord.gg/6z3kYDyu")
@@ -587,13 +691,15 @@ end)
 task.spawn(function()
     local hue = 0
     while task.wait(0.03) do
-        hue = hue + 0.01
-        if hue > 1 then hue = 0 end
-        local color = Color3.fromHSV(hue, 1, 1)
-        pcall(function()
-            RainbowBorder.Color = color
-            MainRainbowBorder.Color = color
-        end)
+        if rainbowEnabled then
+            hue = hue + 0.01
+            if hue > 1 then hue = 0 end
+            local color = Color3.fromHSV(hue, 1, 1)
+            pcall(function()
+                RainbowBorder.Color = color
+                MainRainbowBorder.Color = color
+            end)
+        end
     end
 end)
 
