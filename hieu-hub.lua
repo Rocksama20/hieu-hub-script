@@ -372,35 +372,152 @@ TechContent.BackgroundTransparency = 1
 TechContent.Size = UDim2.new(1, 0, 1, 0)
 TechContent.Visible = false
 
--- MinhNhat Hub Button
+-- ScrollingFrame for more buttons
+local TechScroll = Instance.new("ScrollingFrame")
+TechScroll.Name = "TechScroll"
+TechScroll.Parent = TechContent
+TechScroll.BackgroundTransparency = 1
+TechScroll.BorderSizePixel = 0
+TechScroll.Size = UDim2.new(1, 0, 1, 0)
+TechScroll.CanvasSize = UDim2.new(0, 0, 0, 500)
+TechScroll.ScrollBarThickness = 6
+TechScroll.ScrollBarImageColor3 = Color3.fromRGB(50, 150, 255)
+
+-- GLACIER Button
+local GlacierButton = Instance.new("TextButton")
+GlacierButton.Name = "GlacierButton"
+GlacierButton.Parent = TechScroll
+GlacierButton.BackgroundColor3 = Color3.fromRGB(100, 200, 255)
+GlacierButton.BorderSizePixel = 0
+GlacierButton.Position = UDim2.new(0, 0, 0, 0)
+GlacierButton.Size = UDim2.new(1, 0, 0, 55)
+GlacierButton.Font = Enum.Font.GothamBold
+GlacierButton.Text = "❄️ GLACIER"
+GlacierButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+GlacierButton.TextSize = 16
+
+local GlacierCorner = Instance.new("UICorner")
+GlacierCorner.CornerRadius = UDim.new(0, 8)
+GlacierCorner.Parent = GlacierButton
+
+-- Auto Block & Aimbot Button
+local AutoBlockButton = Instance.new("TextButton")
+AutoBlockButton.Name = "AutoBlockButton"
+AutoBlockButton.Parent = TechScroll
+AutoBlockButton.BackgroundColor3 = Color3.fromRGB(255, 100, 100)
+AutoBlockButton.BorderSizePixel = 0
+AutoBlockButton.Position = UDim2.new(0, 0, 0, 65)
+AutoBlockButton.Size = UDim2.new(1, 0, 0, 55)
+AutoBlockButton.Font = Enum.Font.GothamBold
+AutoBlockButton.Text = "🛡️ Auto Block & Aimbot"
+AutoBlockButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoBlockButton.TextSize = 16
+
+local AutoBlockCorner = Instance.new("UICorner")
+AutoBlockCorner.CornerRadius = UDim.new(0, 8)
+AutoBlockCorner.Parent = AutoBlockButton
+
+-- A-Train Button
+local ATrainButton = Instance.new("TextButton")
+ATrainButton.Name = "ATrainButton"
+ATrainButton.Parent = TechScroll
+ATrainButton.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
+ATrainButton.BorderSizePixel = 0
+ATrainButton.Position = UDim2.new(0, 0, 0, 130)
+ATrainButton.Size = UDim2.new(1, 0, 0, 55)
+ATrainButton.Font = Enum.Font.GothamBold
+ATrainButton.Text = "⚡ A-Train"
+ATrainButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ATrainButton.TextSize = 16
+
+local ATrainCorner = Instance.new("UICorner")
+ATrainCorner.CornerRadius = UDim.new(0, 8)
+ATrainCorner.Parent = ATrainButton
+
+-- Limitless Legacy Button
+local LimitlessButton = Instance.new("TextButton")
+LimitlessButton.Name = "LimitlessButton"
+LimitlessButton.Parent = TechScroll
+LimitlessButton.BackgroundColor3 = Color3.fromRGB(138, 43, 226)
+LimitlessButton.BorderSizePixel = 0
+LimitlessButton.Position = UDim2.new(0, 0, 0, 195)
+LimitlessButton.Size = UDim2.new(1, 0, 0, 55)
+LimitlessButton.Font = Enum.Font.GothamBold
+LimitlessButton.Text = "♾️ Limitless Legacy"
+LimitlessButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+LimitlessButton.TextSize = 16
+
+local LimitlessCorner = Instance.new("UICorner")
+LimitlessCorner.CornerRadius = UDim.new(0, 8)
+LimitlessCorner.Parent = LimitlessButton
+
+-- Phantasm Button
+local PhantasmButton = Instance.new("TextButton")
+PhantasmButton.Name = "PhantasmButton"
+PhantasmButton.Parent = TechScroll
+PhantasmButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+PhantasmButton.BorderSizePixel = 0
+PhantasmButton.Position = UDim2.new(0, 0, 0, 260)
+PhantasmButton.Size = UDim2.new(1, 0, 0, 55)
+PhantasmButton.Font = Enum.Font.GothamBold
+PhantasmButton.Text = "👻 Phantasm"
+PhantasmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+PhantasmButton.TextSize = 16
+
+local PhantasmCorner = Instance.new("UICorner")
+PhantasmCorner.CornerRadius = UDim.new(0, 8)
+PhantasmCorner.Parent = PhantasmButton
+
+-- Chainsaw Man Button
+local ChainsawButton = Instance.new("TextButton")
+ChainsawButton.Name = "ChainsawButton"
+ChainsawButton.Parent = TechScroll
+ChainsawButton.BackgroundColor3 = Color3.fromRGB(220, 20, 60)
+ChainsawButton.BorderSizePixel = 0
+ChainsawButton.Position = UDim2.new(0, 0, 0, 325)
+ChainsawButton.Size = UDim2.new(1, 0, 0, 55)
+ChainsawButton.Font = Enum.Font.GothamBold
+ChainsawButton.Text = "🪚 Chainsaw Man"
+ChainsawButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ChainsawButton.TextSize = 16
+
+local ChainsawCorner = Instance.new("UICorner")
+ChainsawCorner.CornerRadius = UDim.new(0, 8)
+ChainsawCorner.Parent = ChainsawButton
+
+-- Trashcan Man Button
+local TrashcanButton = Instance.new("TextButton")
+TrashcanButton.Name = "TrashcanButton"
+TrashcanButton.Parent = TechScroll
+TrashcanButton.BackgroundColor3 = Color3.fromRGB(128, 128, 128)
+TrashcanButton.BorderSizePixel = 0
+TrashcanButton.Position = UDim2.new(0, 0, 0, 390)
+TrashcanButton.Size = UDim2.new(1, 0, 0, 55)
+TrashcanButton.Font = Enum.Font.GothamBold
+TrashcanButton.Text = "🗑️ Trashcan Man"
+TrashcanButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TrashcanButton.TextSize = 16
+
+local TrashcanCorner = Instance.new("UICorner")
+TrashcanCorner.CornerRadius = UDim.new(0, 8)
+TrashcanCorner.Parent = TrashcanButton
+
+-- MinhNhat Hub Button (moved to bottom)
 local MinhNhatButton = Instance.new("TextButton")
 MinhNhatButton.Name = "MinhNhatButton"
-MinhNhatButton.Parent = TechContent
+MinhNhatButton.Parent = TechScroll
 MinhNhatButton.BackgroundColor3 = Color3.fromRGB(255, 50, 150)
 MinhNhatButton.BorderSizePixel = 0
-MinhNhatButton.Position = UDim2.new(0, 0, 0, 0)
-MinhNhatButton.Size = UDim2.new(1, 0, 0, 60)
+MinhNhatButton.Position = UDim2.new(0, 0, 0, 455)
+MinhNhatButton.Size = UDim2.new(1, 0, 0, 55)
 MinhNhatButton.Font = Enum.Font.GothamBold
 MinhNhatButton.Text = "💻 MinhNhat HUB V9"
 MinhNhatButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-MinhNhatButton.TextSize = 18
+MinhNhatButton.TextSize = 16
 
 local MinhNhatCorner = Instance.new("UICorner")
-MinhNhatCorner.CornerRadius = UDim.new(0, 10)
+MinhNhatCorner.CornerRadius = UDim.new(0, 8)
 MinhNhatCorner.Parent = MinhNhatButton
-
--- Description Label
-local TechDesc = Instance.new("TextLabel")
-TechDesc.Name = "TechDesc"
-TechDesc.Parent = TechContent
-TechDesc.BackgroundTransparency = 1
-TechDesc.Position = UDim2.new(0, 0, 0, 70)
-TechDesc.Size = UDim2.new(1, 0, 0, 40)
-TechDesc.Font = Enum.Font.Gotham
-TechDesc.Text = "Advanced tech hub with multiple features"
-TechDesc.TextColor3 = Color3.fromRGB(200, 200, 200)
-TechDesc.TextSize = 14
-TechDesc.TextXAlignment = Enum.TextXAlignment.Center
 
 -- Misc Content (Tab 4)
 local MiscContent = Instance.new("Frame")
@@ -587,6 +704,84 @@ CreditsInfo.TextXAlignment = Enum.TextXAlignment.Left
 CreditsInfo.TextYAlignment = Enum.TextYAlignment.Top
 
 -- Functions
+-- Tech Tab Buttons
+GlacierButton.MouseButton1Click:Connect(function()
+    local success, err = pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/xVicity/GLACIER/main/LATEST.lua"))()
+    end)
+    if success then
+        print("GLACIER loaded successfully!")
+    else
+        warn("Error loading GLACIER: " .. tostring(err))
+    end
+end)
+
+AutoBlockButton.MouseButton1Click:Connect(function()
+    local success, err = pcall(function()
+        loadstring(game:HttpGet("https://rawscripts.net/raw/The-Strongest-Battlegrounds-Auto-block-and-aimbot-17492"))()
+    end)
+    if success then
+        print("Auto Block & Aimbot loaded successfully!")
+    else
+        warn("Error loading Auto Block: " .. tostring(err))
+    end
+end)
+
+ATrainButton.MouseButton1Click:Connect(function()
+    local success, err = pcall(function()
+        loadstring(game:HttpGet("https://rawscripts.net/raw/The-Strongest-Battlegrounds-A-Train-22155"))()
+    end)
+    if success then
+        print("A-Train loaded successfully!")
+    else
+        warn("Error loading A-Train: " .. tostring(err))
+    end
+end)
+
+LimitlessButton.MouseButton1Click:Connect(function()
+    local success, err = pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Wi-sp/Limitless-legacy/refs/heads/main/GUI"))()
+    end)
+    if success then
+        print("Limitless Legacy loaded successfully!")
+    else
+        warn("Error loading Limitless Legacy: " .. tostring(err))
+    end
+end)
+
+PhantasmButton.MouseButton1Click:Connect(function()
+    local success, err = pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/ATrainz/Phantasm/refs/heads/main/Games/TSB.lua"))()
+    end)
+    if success then
+        print("Phantasm loaded successfully!")
+    else
+        warn("Error loading Phantasm: " .. tostring(err))
+    end
+end)
+
+ChainsawButton.MouseButton1Click:Connect(function()
+    local success, err = pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/yes1nt/yes/refs/heads/main/CHAINSAW%20MAN/Chainsaw%20Man%20(Obfuscated).txt"))()
+    end)
+    if success then
+        print("Chainsaw Man loaded successfully!")
+    else
+        warn("Error loading Chainsaw Man: " .. tostring(err))
+    end
+end)
+
+TrashcanButton.MouseButton1Click:Connect(function()
+    local success, err = pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/yes1nt/yes/refs/heads/main/Trashcan%20Man", true))()
+    end)
+    if success then
+        print("Trashcan Man loaded successfully!")
+    else
+        warn("Error loading Trashcan Man: " .. tostring(err))
+    end
+end)
+
 -- MinhNhat Hub Button
 MinhNhatButton.MouseButton1Click:Connect(function()
     local success, err = pcall(function()
