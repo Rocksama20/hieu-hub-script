@@ -1,7 +1,5 @@
--- ============================================
--- HIEU HUB - FULL SCRIPT (FIXED VERSION)
--- Copy toàn bộ script này lên GitHub
--- ============================================
+-- Hieu Hub Script - Fixed Version
+print("Loading Hieu Hub...")
 
 -- Tạo ScreenGui
 local ScreenGui = Instance.new("ScreenGui")
@@ -19,42 +17,23 @@ local TabBar = Instance.new("Frame")
 local ScriptsTab = Instance.new("TextButton")
 local ExecutorTab = Instance.new("TextButton")
 local MiscTab = Instance.new("TextButton")
-local SettingsTab = Instance.new("TextButton")
 local ContentFrame = Instance.new("Frame")
 
 local correctKey = "Hieuhub20"
 local keyEntered = false
 
--- Settings Variables
-local currentScale = 1
-local currentThemeColor = Color3.fromRGB(50, 150, 255)
-local currentColorMode = "solid"
-local colorAnimationRunning = false
-
 -- Thuộc tính ScreenGui
 ScreenGui.Name = "HieuHub"
-ScreenGui.Parent = game.CoreGui
+ScreenGui.Parent = game:GetService("CoreGui")
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
--- Background Image Label
-local BackgroundImage = Instance.new("ImageLabel")
-BackgroundImage.Name = "BackgroundImage"
-BackgroundImage.Parent = ScreenGui
-BackgroundImage.BackgroundTransparency = 1
-BackgroundImage.Position = UDim2.new(0, 0, 0, 0)
-BackgroundImage.Size = UDim2.new(1, 0, 1, 0)
-BackgroundImage.Image = "rbxassetid://11149299958771"
-BackgroundImage.ScaleType = Enum.ScaleType.Crop
-BackgroundImage.ImageTransparency = 0.3
-BackgroundImage.ZIndex = 0
+ScreenGui.ResetOnSpawn = false
 
 -- Key Frame
 KeyFrame.Name = "KeyFrame"
 KeyFrame.Parent = ScreenGui
 KeyFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
 KeyFrame.BackgroundTransparency = 0.1
-KeyFrame.BorderSizePixel = 3
-KeyFrame.BorderColor3 = Color3.fromRGB(255, 0, 0)
+KeyFrame.BorderSizePixel = 0
 KeyFrame.Position = UDim2.new(0.4, 0, 0.4, 0)
 KeyFrame.Size = UDim2.new(0, 320, 0, 170)
 KeyFrame.Active = true
@@ -66,24 +45,11 @@ local RainbowBorder = Instance.new("UIStroke")
 RainbowBorder.Parent = KeyFrame
 RainbowBorder.Thickness = 3
 RainbowBorder.Color = Color3.fromRGB(255, 0, 0)
+RainbowBorder.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
 local KeyFrameCorner = Instance.new("UICorner")
 KeyFrameCorner.CornerRadius = UDim.new(0, 12)
 KeyFrameCorner.Parent = KeyFrame
-
--- Shadow Effect
-local KeyShadow = Instance.new("ImageLabel")
-KeyShadow.Name = "Shadow"
-KeyShadow.Parent = KeyFrame
-KeyShadow.BackgroundTransparency = 1
-KeyShadow.Position = UDim2.new(0, -15, 0, -15)
-KeyShadow.Size = UDim2.new(1, 30, 1, 30)
-KeyShadow.ZIndex = 1
-KeyShadow.Image = "rbxassetid://1316045217"
-KeyShadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
-KeyShadow.ImageTransparency = 0.5
-KeyShadow.ScaleType = Enum.ScaleType.Slice
-KeyShadow.SliceCenter = Rect.new(10, 10, 118, 118)
 
 -- Key Title Bar
 KeyTitleBar.Name = "KeyTitleBar"
@@ -93,7 +59,7 @@ KeyTitleBar.BorderSizePixel = 0
 KeyTitleBar.Size = UDim2.new(1, 0, 0, 35)
 
 local KeyTitleCorner = Instance.new("UICorner")
-KeyTitleCorner.CornerRadius = UDim.new(0, 8)
+KeyTitleCorner.CornerRadius = UDim.new(0, 12)
 KeyTitleCorner.Parent = KeyTitleBar
 
 -- Key Title Text
@@ -153,8 +119,7 @@ MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
 MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
 MainFrame.BackgroundTransparency = 0.1
-MainFrame.BorderSizePixel = 3
-MainFrame.BorderColor3 = Color3.fromRGB(255, 0, 0)
+MainFrame.BorderSizePixel = 0
 MainFrame.Position = UDim2.new(0.3, 0, 0.25, 0)
 MainFrame.Size = UDim2.new(0, 450, 0, 380)
 MainFrame.Active = true
@@ -167,25 +132,12 @@ local MainRainbowBorder = Instance.new("UIStroke")
 MainRainbowBorder.Parent = MainFrame
 MainRainbowBorder.Thickness = 3
 MainRainbowBorder.Color = Color3.fromRGB(255, 0, 0)
+MainRainbowBorder.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
 -- UICorner cho MainFrame
 local MainCorner = Instance.new("UICorner")
 MainCorner.CornerRadius = UDim.new(0, 12)
 MainCorner.Parent = MainFrame
-
--- Shadow Effect cho MainFrame
-local MainShadow = Instance.new("ImageLabel")
-MainShadow.Name = "Shadow"
-MainShadow.Parent = MainFrame
-MainShadow.BackgroundTransparency = 1
-MainShadow.Position = UDim2.new(0, -15, 0, -15)
-MainShadow.Size = UDim2.new(1, 30, 1, 30)
-MainShadow.ZIndex = 1
-MainShadow.Image = "rbxassetid://1316045217"
-MainShadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
-MainShadow.ImageTransparency = 0.5
-MainShadow.ScaleType = Enum.ScaleType.Slice
-MainShadow.SliceCenter = Rect.new(10, 10, 118, 118)
 
 -- Title Bar
 TitleBar.Name = "TitleBar"
@@ -195,7 +147,7 @@ TitleBar.BorderSizePixel = 0
 TitleBar.Size = UDim2.new(1, 0, 0, 40)
 
 local TitleCorner = Instance.new("UICorner")
-TitleCorner.CornerRadius = UDim.new(0, 8)
+TitleCorner.CornerRadius = UDim.new(0, 12)
 TitleCorner.Parent = TitleBar
 
 -- Title Text
@@ -240,7 +192,7 @@ ScriptsTab.Parent = TabBar
 ScriptsTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
 ScriptsTab.BorderSizePixel = 0
 ScriptsTab.Position = UDim2.new(0, 5, 0, 7)
-ScriptsTab.Size = UDim2.new(0.23, 0, 0, 31)
+ScriptsTab.Size = UDim2.new(0.31, 0, 0, 31)
 ScriptsTab.Font = Enum.Font.GothamBold
 ScriptsTab.Text = "📜 Scripts"
 ScriptsTab.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -255,8 +207,8 @@ ExecutorTab.Name = "ExecutorTab"
 ExecutorTab.Parent = TabBar
 ExecutorTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
 ExecutorTab.BorderSizePixel = 0
-ExecutorTab.Position = UDim2.new(0.255, 0, 0, 7)
-ExecutorTab.Size = UDim2.new(0.23, 0, 0, 31)
+ExecutorTab.Position = UDim2.new(0.34, 0, 0, 7)
+ExecutorTab.Size = UDim2.new(0.31, 0, 0, 31)
 ExecutorTab.Font = Enum.Font.GothamBold
 ExecutorTab.Text = "⚙️ Executor"
 ExecutorTab.TextColor3 = Color3.fromRGB(200, 200, 200)
@@ -271,8 +223,8 @@ MiscTab.Name = "MiscTab"
 MiscTab.Parent = TabBar
 MiscTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
 MiscTab.BorderSizePixel = 0
-MiscTab.Position = UDim2.new(0.51, 0, 0, 7)
-MiscTab.Size = UDim2.new(0.23, 0, 0, 31)
+MiscTab.Position = UDim2.new(0.68, 0, 0, 7)
+MiscTab.Size = UDim2.new(0.29, 0, 0, 31)
 MiscTab.Font = Enum.Font.GothamBold
 MiscTab.Text = "🔧 Misc"
 MiscTab.TextColor3 = Color3.fromRGB(200, 200, 200)
@@ -281,22 +233,6 @@ MiscTab.TextSize = 14
 local MiscTabCorner = Instance.new("UICorner")
 MiscTabCorner.CornerRadius = UDim.new(0, 6)
 MiscTabCorner.Parent = MiscTab
-
--- Settings Tab
-SettingsTab.Name = "SettingsTab"
-SettingsTab.Parent = TabBar
-SettingsTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-SettingsTab.BorderSizePixel = 0
-SettingsTab.Position = UDim2.new(0.765, 0, 0, 7)
-SettingsTab.Size = UDim2.new(0.22, 0, 0, 31)
-SettingsTab.Font = Enum.Font.GothamBold
-SettingsTab.Text = "⚙️ Settings"
-SettingsTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-SettingsTab.TextSize = 14
-
-local SettingsTabCorner = Instance.new("UICorner")
-SettingsTabCorner.CornerRadius = UDim.new(0, 6)
-SettingsTabCorner.Parent = SettingsTab
 
 -- Content Frame
 ContentFrame.Name = "ContentFrame"
@@ -515,53 +451,152 @@ CreditsInfo.TextSize = 13
 CreditsInfo.TextXAlignment = Enum.TextXAlignment.Left
 CreditsInfo.TextYAlignment = Enum.TextYAlignment.Top
 
--- Settings Content (Tab 4)
-local SettingsContent = Instance.new("Frame")
-SettingsContent.Name = "SettingsContent"
-SettingsContent.Parent = ContentFrame
-SettingsContent.BackgroundTransparency = 1
-SettingsContent.Size = UDim2.new(1, 0, 1, 0)
-SettingsContent.Visible = false
+-- Functions
+DiscordButton.MouseButton1Click:Connect(function()
+    local success = pcall(function()
+        setclipboard("https://discord.gg/6z3kYDyu")
+    end)
+    if success then
+        DiscordButton.Text = "✅ Link Copied!"
+        wait(2)
+        DiscordButton.Text = "📱 Copy Discord Link"
+    else
+        DiscordButton.Text = "❌ Clipboard not supported"
+        wait(2)
+        DiscordButton.Text = "📱 Copy Discord Link"
+    end
+end)
 
--- Theme Color Section
-local ThemeFrame = Instance.new("Frame")
-ThemeFrame.Name = "ThemeFrame"
-ThemeFrame.Parent = SettingsContent
-ThemeFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
-ThemeFrame.BorderSizePixel = 0
-ThemeFrame.Position = UDim2.new(0, 0, 0, 0)
-ThemeFrame.Size = UDim2.new(1, 0, 0, 160)
+InvisibleButton.MouseButton1Click:Connect(function()
+    local success, err = pcall(function()
+        loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Invisible-Script-70877"))()
+    end)
+    if success then
+        print("Invisible Script loaded!")
+    else
+        warn("Error loading Invisible: " .. tostring(err))
+    end
+end)
 
-local ThemeFrameCorner = Instance.new("UICorner")
-ThemeFrameCorner.CornerRadius = UDim.new(0, 10)
-ThemeFrameCorner.Parent = ThemeFrame
+EdgeIYButton.MouseButton1Click:Connect(function()
+    local success, err = pcall(function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+    end)
+    if success then
+        print("EdgeIY loaded!")
+    else
+        warn("Error loading EdgeIY: " .. tostring(err))
+    end
+end)
 
-local ThemeTitle = Instance.new("TextLabel")
-ThemeTitle.Name = "ThemeTitle"
-ThemeTitle.Parent = ThemeFrame
-ThemeTitle.BackgroundTransparency = 1
-ThemeTitle.Position = UDim2.new(0, 15, 0, 10)
-ThemeTitle.Size = UDim2.new(1, -30, 0, 25)
-ThemeTitle.Font = Enum.Font.GothamBold
-ThemeTitle.Text = "🎨 Theme Color"
-ThemeTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-ThemeTitle.TextSize = 16
-ThemeTitle.TextXAlignment = Enum.TextXAlignment.Left
+FlyButton.MouseButton1Click:Connect(function()
+    local success, err = pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
+    end)
+    if success then
+        print("Fly Script loaded!")
+    else
+        warn("Error loading Fly: " .. tostring(err))
+    end
+end)
 
--- Color Buttons
-local colorPresets = {
-    {name = "Blue", color = Color3.fromRGB(50, 150, 255), type = "solid"},
-    {name = "Red", color = Color3.fromRGB(255, 50, 50), type = "solid"},
-    {name = "Green", color = Color3.fromRGB(50, 255, 100), type = "solid"},
-    {name = "Purple", color = Color3.fromRGB(150, 50, 255), type = "solid"},
-    {name = "Rainbow", color = Color3.fromRGB(255, 0, 0), type = "rainbow"},
-    {name = "Dual", color = Color3.fromRGB(255, 0, 255), type = "dual"},
-    {name = "Triple", color = Color3.fromRGB(0, 255, 255), type = "triple"},
-    {name = "Wave", color = Color3.fromRGB(100, 200, 255), type = "wave"}
-}
+SubmitKeyButton.MouseButton1Click:Connect(function()
+    if KeyTextBox.Text == correctKey then
+        keyEntered = true
+        KeyFrame.Visible = false
+        MainFrame.Visible = true
+        print("Key accepted! Welcome to Hieu Hub!")
+    else
+        KeyTextBox.Text = ""
+        KeyTextBox.PlaceholderText = "Wrong key! Try again..."
+        wait(1)
+        KeyTextBox.PlaceholderText = "Enter key here..."
+    end
+end)
 
-for i, preset in ipairs(colorPresets) do
-    local row = math.floor((i - 1) / 4)
-    local col = (i - 1) % 4
-    
-    local
+CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+ExecuteButton.MouseButton1Click:Connect(function()
+    local code = TextBox.Text
+    if code ~= "" then
+        local success, err = pcall(function()
+            loadstring(code)()
+        end)
+        if success then
+            print("Script executed successfully!")
+        else
+            warn("Error: " .. tostring(err))
+        end
+    end
+end)
+
+-- Tab Switching
+ScriptsTab.MouseButton1Click:Connect(function()
+    ScriptsContent.Visible = true
+    ExecutorContent.Visible = false
+    MiscContent.Visible = false
+    ScriptsTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
+    ScriptsTab.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ExecutorTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    ExecutorTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+    MiscTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    MiscTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+end)
+
+ExecutorTab.MouseButton1Click:Connect(function()
+    ScriptsContent.Visible = false
+    ExecutorContent.Visible = true
+    MiscContent.Visible = false
+    ExecutorTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
+    ExecutorTab.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ScriptsTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    ScriptsTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+    MiscTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    MiscTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+end)
+
+MiscTab.MouseButton1Click:Connect(function()
+    ScriptsContent.Visible = false
+    ExecutorContent.Visible = false
+    MiscContent.Visible = true
+    MiscTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
+    MiscTab.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ScriptsTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    ScriptsTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+    ExecutorTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    ExecutorTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+end)
+
+-- Toggle với phím K
+local UserInputService = game:GetService("UserInputService")
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed then
+        if input.KeyCode == Enum.KeyCode.K then
+            if keyEntered then
+                MainFrame.Visible = not MainFrame.Visible
+            else
+                KeyFrame.Visible = not KeyFrame.Visible
+            end
+        end
+    end
+end)
+
+-- Rainbow Border Animation
+task.spawn(function()
+    local hue = 0
+    while task.wait(0.03) do
+        hue = hue + 0.01
+        if hue > 1 then hue = 0 end
+        local color = Color3.fromHSV(hue, 1, 1)
+        pcall(function()
+            RainbowBorder.Color = color
+            MainRainbowBorder.Color = color
+        end)
+    end
+end)
+
+print("Hieu Hub loaded successfully!")
+print("Key: Hieuhub20")
+print("Press K to toggle GUI")
