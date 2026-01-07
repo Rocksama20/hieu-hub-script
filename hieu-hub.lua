@@ -1,9 +1,8 @@
--- Hieu Hub Script with Lethal Dash
+-- Hieu Hub with Lethal Dash - Complete Version
 print("Loading Hieu Hub with Lethal Dash...")
 
 -- Services
 local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 
 local player = Players.LocalPlayer
@@ -16,14 +15,13 @@ local dashSettings = {
     enabled = false,
     dashSpeed = 150,
     dashKey = Enum.KeyCode.M,
-    cooldown = 0.5,
-    dashDistance = 50
+    cooldown = 0.5
 }
 
 local canDash = true
 local isDashing = false
 
--- Lethal Dash Functions
+-- Lethal Dash Function
 local function performDash()
     if not canDash or not dashSettings.enabled or isDashing then return end
     
@@ -36,7 +34,6 @@ local function performDash()
     bodyVelocity.MaxForce = Vector3.new(100000, 0, 100000)
     bodyVelocity.Parent = rootPart
     
-    -- Visual effect
     local trail = Instance.new("Trail")
     local att0 = Instance.new("Attachment", rootPart)
     local att1 = Instance.new("Attachment", rootPart)
@@ -59,7 +56,7 @@ local function performDash()
     game:GetService("Debris"):AddItem(att1, 0.5)
 end
 
--- Tạo ScreenGui
+-- GUI Creation
 local ScreenGui = Instance.new("ScreenGui")
 local KeyFrame = Instance.new("Frame")
 local KeyTitleBar = Instance.new("Frame")
@@ -74,20 +71,19 @@ local CloseButton = Instance.new("TextButton")
 local TabBar = Instance.new("Frame")
 local ScriptsTab = Instance.new("TextButton")
 local ExecutorTab = Instance.new("TextButton")
-local MiscTab = Instance.new("TextButton")
 local TechTab = Instance.new("TextButton")
+local MiscTab = Instance.new("TextButton")
 local ContentFrame = Instance.new("Frame")
 
 local correctKey = "Hieuhub20"
 local keyEntered = false
 
--- Thuộc tính ScreenGui
 ScreenGui.Name = "HieuHub"
 ScreenGui.Parent = game:GetService("CoreGui")
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.ResetOnSpawn = false
 
--- Key Frame
+-- Key Frame Setup
 KeyFrame.Name = "KeyFrame"
 KeyFrame.Parent = ScreenGui
 KeyFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
@@ -99,7 +95,6 @@ KeyFrame.Active = true
 KeyFrame.Draggable = true
 KeyFrame.ZIndex = 2
 
--- Rainbow Border cho KeyFrame
 local RainbowBorder = Instance.new("UIStroke")
 RainbowBorder.Parent = KeyFrame
 RainbowBorder.Thickness = 3
@@ -110,7 +105,6 @@ local KeyFrameCorner = Instance.new("UICorner")
 KeyFrameCorner.CornerRadius = UDim.new(0, 12)
 KeyFrameCorner.Parent = KeyFrame
 
--- Key Title Bar
 KeyTitleBar.Name = "KeyTitleBar"
 KeyTitleBar.Parent = KeyFrame
 KeyTitleBar.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
@@ -121,7 +115,6 @@ local KeyTitleCorner = Instance.new("UICorner")
 KeyTitleCorner.CornerRadius = UDim.new(0, 12)
 KeyTitleCorner.Parent = KeyTitleBar
 
--- Key Title Text
 KeyTitle.Name = "KeyTitle"
 KeyTitle.Parent = KeyTitleBar
 KeyTitle.BackgroundTransparency = 1
@@ -133,14 +126,12 @@ KeyTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
 KeyTitle.TextSize = 16
 KeyTitle.TextXAlignment = Enum.TextXAlignment.Center
 
--- Key Content Frame
 KeyContentFrame.Name = "KeyContentFrame"
 KeyContentFrame.Parent = KeyFrame
 KeyContentFrame.BackgroundTransparency = 1
 KeyContentFrame.Position = UDim2.new(0, 10, 0, 45)
 KeyContentFrame.Size = UDim2.new(1, -20, 1, -55)
 
--- Key TextBox
 KeyTextBox.Name = "KeyTextBox"
 KeyTextBox.Parent = KeyContentFrame
 KeyTextBox.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
@@ -157,7 +148,6 @@ local KeyTextBoxCorner = Instance.new("UICorner")
 KeyTextBoxCorner.CornerRadius = UDim.new(0, 6)
 KeyTextBoxCorner.Parent = KeyTextBox
 
--- Submit Key Button
 SubmitKeyButton.Name = "SubmitKeyButton"
 SubmitKeyButton.Parent = KeyContentFrame
 SubmitKeyButton.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
@@ -173,7 +163,7 @@ local SubmitKeyCorner = Instance.new("UICorner")
 SubmitKeyCorner.CornerRadius = UDim.new(0, 6)
 SubmitKeyCorner.Parent = SubmitKeyButton
 
--- Main Frame (Window)
+-- Main Frame
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
 MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
@@ -186,19 +176,16 @@ MainFrame.Draggable = true
 MainFrame.Visible = false
 MainFrame.ZIndex = 2
 
--- Rainbow Border cho MainFrame
 local MainRainbowBorder = Instance.new("UIStroke")
 MainRainbowBorder.Parent = MainFrame
 MainRainbowBorder.Thickness = 3
 MainRainbowBorder.Color = Color3.fromRGB(255, 0, 0)
 MainRainbowBorder.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
--- UICorner cho MainFrame
 local MainCorner = Instance.new("UICorner")
 MainCorner.CornerRadius = UDim.new(0, 12)
 MainCorner.Parent = MainFrame
 
--- Title Bar
 TitleBar.Name = "TitleBar"
 TitleBar.Parent = MainFrame
 TitleBar.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
@@ -209,7 +196,6 @@ local TitleCorner = Instance.new("UICorner")
 TitleCorner.CornerRadius = UDim.new(0, 12)
 TitleCorner.Parent = TitleBar
 
--- Title Text
 Title.Name = "Title"
 Title.Parent = TitleBar
 Title.BackgroundTransparency = 1
@@ -221,7 +207,6 @@ Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextSize = 18
 Title.TextXAlignment = Enum.TextXAlignment.Left
 
--- Close Button
 CloseButton.Name = "CloseButton"
 CloseButton.Parent = TitleBar
 CloseButton.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
@@ -245,7 +230,6 @@ TabBar.BorderSizePixel = 0
 TabBar.Position = UDim2.new(0, 0, 0, 40)
 TabBar.Size = UDim2.new(1, 0, 0, 45)
 
--- Scripts Tab
 ScriptsTab.Name = "ScriptsTab"
 ScriptsTab.Parent = TabBar
 ScriptsTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
@@ -261,7 +245,6 @@ local ScriptsTabCorner = Instance.new("UICorner")
 ScriptsTabCorner.CornerRadius = UDim.new(0, 6)
 ScriptsTabCorner.Parent = ScriptsTab
 
--- Executor Tab
 ExecutorTab.Name = "ExecutorTab"
 ExecutorTab.Parent = TabBar
 ExecutorTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
@@ -277,7 +260,6 @@ local ExecutorTabCorner = Instance.new("UICorner")
 ExecutorTabCorner.CornerRadius = UDim.new(0, 6)
 ExecutorTabCorner.Parent = ExecutorTab
 
--- Tech Tab
 TechTab.Name = "TechTab"
 TechTab.Parent = TabBar
 TechTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
@@ -293,7 +275,6 @@ local TechTabCorner = Instance.new("UICorner")
 TechTabCorner.CornerRadius = UDim.new(0, 6)
 TechTabCorner.Parent = TechTab
 
--- Misc Tab
 MiscTab.Name = "MiscTab"
 MiscTab.Parent = TabBar
 MiscTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
@@ -309,14 +290,13 @@ local MiscTabCorner = Instance.new("UICorner")
 MiscTabCorner.CornerRadius = UDim.new(0, 6)
 MiscTabCorner.Parent = MiscTab
 
--- Content Frame
 ContentFrame.Name = "ContentFrame"
 ContentFrame.Parent = MainFrame
 ContentFrame.BackgroundTransparency = 1
 ContentFrame.Position = UDim2.new(0, 10, 0, 95)
 ContentFrame.Size = UDim2.new(1, -20, 1, -105)
 
--- Scripts Content (Tab 1)
+-- Scripts Content
 local ScriptsContent = Instance.new("Frame")
 ScriptsContent.Name = "ScriptsContent"
 ScriptsContent.Parent = ContentFrame
@@ -324,9 +304,7 @@ ScriptsContent.BackgroundTransparency = 1
 ScriptsContent.Size = UDim2.new(1, 0, 1, 0)
 ScriptsContent.Visible = true
 
--- Invisible Script Button
 local InvisibleButton = Instance.new("TextButton")
-InvisibleButton.Name = "InvisibleButton"
 InvisibleButton.Parent = ScriptsContent
 InvisibleButton.BackgroundColor3 = Color3.fromRGB(100, 200, 100)
 InvisibleButton.BorderSizePixel = 0
@@ -336,14 +314,11 @@ InvisibleButton.Font = Enum.Font.GothamBold
 InvisibleButton.Text = "👻 Invisible"
 InvisibleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 InvisibleButton.TextSize = 16
-
 local InvisibleCorner = Instance.new("UICorner")
 InvisibleCorner.CornerRadius = UDim.new(0, 8)
 InvisibleCorner.Parent = InvisibleButton
 
--- EdgeIY Button
 local EdgeIYButton = Instance.new("TextButton")
-EdgeIYButton.Name = "EdgeIYButton"
 EdgeIYButton.Parent = ScriptsContent
 EdgeIYButton.BackgroundColor3 = Color3.fromRGB(255, 140, 0)
 EdgeIYButton.BorderSizePixel = 0
@@ -353,14 +328,11 @@ EdgeIYButton.Font = Enum.Font.GothamBold
 EdgeIYButton.Text = "⚡ EdgeIY"
 EdgeIYButton.TextColor3 = Color3.fromRGB(0, 0, 0)
 EdgeIYButton.TextSize = 16
-
 local EdgeIYCorner = Instance.new("UICorner")
 EdgeIYCorner.CornerRadius = UDim.new(0, 8)
 EdgeIYCorner.Parent = EdgeIYButton
 
--- Fly Button
 local FlyButton = Instance.new("TextButton")
-FlyButton.Name = "FlyButton"
 FlyButton.Parent = ScriptsContent
 FlyButton.BackgroundColor3 = Color3.fromRGB(135, 206, 250)
 FlyButton.BorderSizePixel = 0
@@ -370,26 +342,21 @@ FlyButton.Font = Enum.Font.GothamBold
 FlyButton.Text = "✈️ Fly"
 FlyButton.TextColor3 = Color3.fromRGB(0, 0, 0)
 FlyButton.TextSize = 16
-
 local FlyCorner = Instance.new("UICorner")
 FlyCorner.CornerRadius = UDim.new(0, 8)
 FlyCorner.Parent = FlyButton
 
--- Executor Content (Tab 2)
+-- Executor Content
 local ExecutorContent = Instance.new("Frame")
-ExecutorContent.Name = "ExecutorContent"
 ExecutorContent.Parent = ContentFrame
 ExecutorContent.BackgroundTransparency = 1
 ExecutorContent.Size = UDim2.new(1, 0, 1, 0)
 ExecutorContent.Visible = false
 
--- TextBox
 local TextBox = Instance.new("TextBox")
-TextBox.Name = "TextBox"
 TextBox.Parent = ExecutorContent
 TextBox.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
 TextBox.BorderSizePixel = 0
-TextBox.Position = UDim2.new(0, 0, 0, 0)
 TextBox.Size = UDim2.new(1, 0, 0.8, 0)
 TextBox.Font = Enum.Font.Code
 TextBox.PlaceholderText = "-- Nhập script ở đây..."
@@ -400,14 +367,11 @@ TextBox.TextXAlignment = Enum.TextXAlignment.Left
 TextBox.TextYAlignment = Enum.TextYAlignment.Top
 TextBox.MultiLine = true
 TextBox.ClearTextOnFocus = false
-
 local TextBoxCorner = Instance.new("UICorner")
 TextBoxCorner.CornerRadius = UDim.new(0, 8)
 TextBoxCorner.Parent = TextBox
 
--- Execute Button
 local ExecuteButton = Instance.new("TextButton")
-ExecuteButton.Name = "ExecuteButton"
 ExecuteButton.Parent = ExecutorContent
 ExecuteButton.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
 ExecuteButton.BorderSizePixel = 0
@@ -417,22 +381,18 @@ ExecuteButton.Font = Enum.Font.GothamBold
 ExecuteButton.Text = "▶️ Execute"
 ExecuteButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 ExecuteButton.TextSize = 16
-
 local ExecuteCorner = Instance.new("UICorner")
 ExecuteCorner.CornerRadius = UDim.new(0, 8)
 ExecuteCorner.Parent = ExecuteButton
 
--- Tech Content (Tab 3)
+-- Tech Content with Lethal Dash
 local TechContent = Instance.new("Frame")
-TechContent.Name = "TechContent"
 TechContent.Parent = ContentFrame
 TechContent.BackgroundTransparency = 1
 TechContent.Size = UDim2.new(1, 0, 1, 0)
 TechContent.Visible = false
 
--- ScrollingFrame for more buttons
 local TechScroll = Instance.new("ScrollingFrame")
-TechScroll.Name = "TechScroll"
 TechScroll.Parent = TechContent
 TechScroll.BackgroundTransparency = 1
 TechScroll.BorderSizePixel = 0
@@ -441,11 +401,10 @@ TechScroll.CanvasSize = UDim2.new(0, 0, 0, 565)
 TechScroll.ScrollBarThickness = 6
 TechScroll.ScrollBarImageColor3 = Color3.fromRGB(50, 150, 255)
 
--- LETHAL DASH BUTTON (Đầu tiên trong Tech tab với màu vàng chàm)
+-- LETHAL DASH (First button - Yellow Gold)
 local LethalDashButton = Instance.new("TextButton")
-LethalDashButton.Name = "LethalDashButton"
 LethalDashButton.Parent = TechScroll
-LethalDashButton.BackgroundColor3 = Color3.fromRGB(255, 215, 0) -- Màu vàng chàm
+LethalDashButton.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
 LethalDashButton.BorderSizePixel = 0
 LethalDashButton.Position = UDim2.new(0, 0, 0, 0)
 LethalDashButton.Size = UDim2.new(1, 0, 0, 55)
@@ -453,126 +412,120 @@ LethalDashButton.Font = Enum.Font.GothamBold
 LethalDashButton.Text = "⚡ Lethal Dash [OFF]"
 LethalDashButton.TextColor3 = Color3.fromRGB(0, 0, 0)
 LethalDashButton.TextSize = 16
-
 local LethalDashCorner = Instance.new("UICorner")
 LethalDashCorner.CornerRadius = UDim.new(0, 8)
 LethalDashCorner.Parent = LethalDashButton
 
--- GLACIER Button
-local GlacierButton = Instance.new("TextButton")
-GlacierButton.Name = "GlacierButton"
-GlacierButton.Parent = TechScroll
-GlacierButton.BackgroundColor3 = Color3.fromRGB(100, 200, 255)
-GlacierButton.BorderSizePixel = 0
-GlacierButton.Position = UDim2.new(0, 0, 0, 65)
-GlacierButton.Size = UDim2.new(1, 0, 0, 55)
-GlacierButton.Font = Enum.Font.GothamBold
-GlacierButton.Text = "❄️ GLACIER"
-GlacierButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-GlacierButton.TextSize = 16
+local techButtons = {
+    {name = "GLACIER", y = 65, color = Color3.fromRGB(100, 200, 255), text = "❄️ GLACIER", url = "https://raw.githubusercontent.com/xVicity/GLACIER/main/LATEST.lua"},
+    {name = "AutoBlock", y = 130, color = Color3.fromRGB(255, 100, 100), text = "🛡️ Auto Block & Aimbot", url = "https://rawscripts.net/raw/The-Strongest-Battlegrounds-Auto-block-and-aimbot-17492"},
+    {name = "ATrain", y = 195, color = Color3.fromRGB(255, 165, 0), text = "⚡ A-Train", url = "https://rawscripts.net/raw/The-Strongest-Battlegrounds-A-Train-22155"},
+    {name = "Limitless", y = 260, color = Color3.fromRGB(138, 43, 226), text = "♾️ Limitless Legacy", url = "https://raw.githubusercontent.com/Wi-sp/Limitless-legacy/refs/heads/main/GUI"},
+    {name = "Phantasm", y = 325, color = Color3.fromRGB(50, 50, 50), text = "👻 Phantasm", url = "https://raw.githubusercontent.com/ATrainz/Phantasm/refs/heads/main/Games/TSB.lua"},
+    {name = "Chainsaw", y = 390, color = Color3.fromRGB(220, 20, 60), text = "🪚 Chainsaw Man", url = "https://raw.githubusercontent.com/yes1nt/yes/refs/heads/main/CHAINSAW%20MAN/Chainsaw%20Man%20(Obfuscated).txt"},
+    {name = "Trashcan", y = 455, color = Color3.fromRGB(128, 128, 128), text = "🗑️ Trashcan Man", url = "https://raw.githubusercontent.com/yes1nt/yes/refs/heads/main/Trashcan%20Man"},
+    {name = "MinhNhat", y = 520, color = Color3.fromRGB(255, 50, 150), text = "💻 MinhNhat HUB V9", url = "https://raw.githubusercontent.com/MinhNhatHUB/MinhNhat/refs/heads/main/MinhNhatHUB%20V9.lua"}
+}
 
-local GlacierCorner = Instance.new("UICorner")
-GlacierCorner.CornerRadius = UDim.new(0, 8)
-GlacierCorner.Parent = GlacierButton
+for _, btnData in ipairs(techButtons) do
+    local btn = Instance.new("TextButton")
+    btn.Parent = TechScroll
+    btn.BackgroundColor3 = btnData.color
+    btn.BorderSizePixel = 0
+    btn.Position = UDim2.new(0, 0, 0, btnData.y)
+    btn.Size = UDim2.new(1, 0, 0, 55)
+    btn.Font = Enum.Font.GothamBold
+    btn.Text = btnData.text
+    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btn.TextSize = 16
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 8)
+    corner.Parent = btn
+    
+    btn.MouseButton1Click:Connect(function()
+        pcall(function()
+            loadstring(game:HttpGet(btnData.url))()
+        end)
+    end)
+end
 
--- Auto Block & Aimbot Button
-local AutoBlockButton = Instance.new("TextButton")
-AutoBlockButton.Name = "AutoBlockButton"
-AutoBlockButton.Parent = TechScroll
-AutoBlockButton.BackgroundColor3 = Color3.fromRGB(255, 100, 100)
-AutoBlockButton.BorderSizePixel = 0
-AutoBlockButton.Position = UDim2.new(0, 0, 0, 130)
-AutoBlockButton.Size = UDim2.new(1, 0, 0, 55)
-AutoBlockButton.Font = Enum.Font.GothamBold
-AutoBlockButton.Text = "🛡️ Auto Block & Aimbot"
-AutoBlockButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-AutoBlockButton.TextSize = 16
+-- Misc Content
+local MiscContent = Instance.new("Frame")
+MiscContent.Parent = ContentFrame
+MiscContent.BackgroundTransparency = 1
+MiscContent.Size = UDim2.new(1, 0, 1, 0)
+MiscContent.Visible = false
 
-local AutoBlockCorner = Instance.new("UICorner")
-AutoBlockCorner.CornerRadius = UDim.new(0, 8)
-AutoBlockCorner.Parent = AutoBlockButton
+local DiscordFrame = Instance.new("Frame")
+DiscordFrame.Parent = MiscContent
+DiscordFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+DiscordFrame.BorderSizePixel = 0
+DiscordFrame.Size = UDim2.new(1, 0, 0, 90)
+local DiscordFrameCorner = Instance.new("UICorner")
+DiscordFrameCorner.CornerRadius = UDim.new(0, 10)
+DiscordFrameCorner.Parent = DiscordFrame
 
--- A-Train Button
-local ATrainButton = Instance.new("TextButton")
-ATrainButton.Name = "ATrainButton"
-ATrainButton.Parent = TechScroll
-ATrainButton.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
-ATrainButton.BorderSizePixel = 0
-ATrainButton.Position = UDim2.new(0, 0, 0, 195)
-ATrainButton.Size = UDim2.new(1, 0, 0, 55)
-ATrainButton.Font = Enum.Font.GothamBold
-ATrainButton.Text = "⚡ A-Train"
-ATrainButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-ATrainButton.TextSize = 16
+local DiscordTitle = Instance.new("TextLabel")
+DiscordTitle.Parent = DiscordFrame
+DiscordTitle.BackgroundTransparency = 1
+DiscordTitle.Position = UDim2.new(0, 15, 0, 10)
+DiscordTitle.Size = UDim2.new(1, -30, 0, 25)
+DiscordTitle.Font = Enum.Font.GothamBold
+DiscordTitle.Text = "💬 Join Discord Server"
+DiscordTitle.TextColor3 = Color3.fromRGB(88, 101, 242)
+DiscordTitle.TextSize = 16
+DiscordTitle.TextXAlignment = Enum.TextXAlignment.Left
 
-local ATrainCorner = Instance.new("UICorner")
-ATrainCorner.CornerRadius = UDim.new(0, 8)
-ATrainCorner.Parent = ATrainButton
+local DiscordButton = Instance.new("TextButton")
+DiscordButton.Parent = DiscordFrame
+DiscordButton.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
+DiscordButton.BorderSizePixel = 0
+DiscordButton.Position = UDim2.new(0, 15, 0, 45)
+DiscordButton.Size = UDim2.new(1, -30, 0, 35)
+DiscordButton.Font = Enum.Font.GothamBold
+DiscordButton.Text = "📱 Copy Discord Link"
+DiscordButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+DiscordButton.TextSize = 15
+local DiscordBtnCorner = Instance.new("UICorner")
+DiscordBtnCorner.CornerRadius = UDim.new(0, 8)
+DiscordBtnCorner.Parent = DiscordButton
 
--- Limitless Legacy Button
-local LimitlessButton = Instance.new("TextButton")
-LimitlessButton.Name = "LimitlessButton"
-LimitlessButton.Parent = TechScroll
-LimitlessButton.BackgroundColor3 = Color3.fromRGB(138, 43, 226)
-LimitlessButton.BorderSizePixel = 0
-LimitlessButton.Position = UDim2.new(0, 0, 0, 260)
-LimitlessButton.Size = UDim2.new(1, 0, 0, 55)
-LimitlessButton.Font = Enum.Font.GothamBold
-LimitlessButton.Text = "♾️ Limitless Legacy"
-LimitlessButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-LimitlessButton.TextSize = 16
+local ThemeFrame = Instance.new("Frame")
+ThemeFrame.Parent = MiscContent
+ThemeFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+ThemeFrame.BorderSizePixel = 0
+ThemeFrame.Position = UDim2.new(0, 0, 0, 100)
+ThemeFrame.Size = UDim2.new(1, 0, 0, 85)
+local ThemeFrameCorner = Instance.new("UICorner")
+ThemeFrameCorner.CornerRadius = UDim.new(0, 10)
+ThemeFrameCorner.Parent = ThemeFrame
 
-local LimitlessCorner = Instance.new("UICorner")
-LimitlessCorner.CornerRadius = UDim.new(0, 8)
-LimitlessCorner.Parent = LimitlessButton
+local ThemeTitle = Instance.new("TextLabel")
+ThemeTitle.Parent = ThemeFrame
+ThemeTitle.BackgroundTransparency = 1
+ThemeTitle.Position = UDim2.new(0, 15, 0, 10)
+ThemeTitle.Size = UDim2.new(1, -30, 0, 25)
+ThemeTitle.Font = Enum.Font.GothamBold
+ThemeTitle.Text = "🎨 Border Color Theme"
+ThemeTitle.TextColor3 = Color3.fromRGB(255, 100, 255)
+ThemeTitle.TextSize = 16
+ThemeTitle.TextXAlignment = Enum.TextXAlignment.Left
 
--- Phantasm Button
-local PhantasmButton = Instance.new("TextButton")
-PhantasmButton.Name = "PhantasmButton"
-PhantasmButton.Parent = TechScroll
-PhantasmButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-PhantasmButton.BorderSizePixel = 0
-PhantasmButton.Position = UDim2.new(0, 0, 0, 325)
-PhantasmButton.Size = UDim2.new(1, 0, 0, 55)
-PhantasmButton.Font = Enum.Font.GothamBold
-PhantasmButton.Text = "👻 Phantasm"
-PhantasmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-PhantasmButton.TextSize = 16
+local ColorContainer = Instance.new("Frame")
+ColorContainer.Parent = ThemeFrame
+ColorContainer.BackgroundTransparency = 1
+ColorContainer.Position = UDim2.new(0, 15, 0, 40)
+ColorContainer.Size = UDim2.new(1, -30, 0, 35)
 
-local PhantasmCorner = Instance.new("UICorner")
-PhantasmCorner.CornerRadius = UDim.new(0, 8)
-PhantasmCorner.Parent = PhantasmButton
+local colors = {
+    {name = "Rainbow", color = nil, isRainbow = true},
+    {name = "Red", color = Color3.fromRGB(255, 50, 50)},
+    {name = "Blue", color = Color3.fromRGB(50, 150, 255)},
+    {name = "Green", color = Color3.fromRGB(50, 255, 100)},
+    {name = "Purple", color = Color3.fromRGB(180, 50, 255)},
+    {name = "Orange", color = Color3.fromRGB(255, 140, 0)},
+    {name = "Pink", color = Color3.fromRGB(255, 105, 180)},
+    {name = "Cyan", color = Color3.fromRGB(0, 255, 255)},
+}
 
--- Chainsaw Man Button
-local ChainsawButton = Instance.new("TextButton")
-ChainsawButton.Name = "ChainsawButton"
-ChainsawButton.Parent = TechScroll
-ChainsawButton.BackgroundColor3 = Color3.fromRGB(220, 20, 60)
-ChainsawButton.BorderSizePixel = 0
-ChainsawButton.Position = UDim2.new(0, 0, 0, 390)
-ChainsawButton.Size = UDim2.new(1, 0, 0, 55)
-ChainsawButton.Font = Enum.Font.GothamBold
-ChainsawButton.Text = "🪚 Chainsaw Man"
-ChainsawButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-ChainsawButton.TextSize = 16
-
-local ChainsawCorner = Instance.new("UICorner")
-ChainsawCorner.CornerRadius = UDim.new(0, 8)
-ChainsawCorner.Parent = ChainsawButton
-
--- Trashcan Man Button
-local TrashcanButton = Instance.new("TextButton")
-TrashcanButton.Name = "TrashcanButton"
-TrashcanButton.Parent = TechScroll
-TrashcanButton.BackgroundColor3 = Color3.fromRGB(128, 128, 128)
-TrashcanButton.BorderSizePixel = 0
-TrashcanButton.Position = UDim2.new(0, 0, 0, 455)
-TrashcanButton.Size = UDim2.new(1, 0, 0, 55)
-TrashcanButton.Font = Enum.Font.GothamBold
-TrashcanButton.Text = "🗑️ Trashcan Man"
-TrashcanButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-TrashcanButton.TextSize = 16
-
-local TrashcanCorner = Instance.new("UICorner")
-TrashcanCorner.CornerRadius = UDim.new(0, 8)
-TrashcanCorner.Parent = Trashcan
+local colorButtons =
