@@ -1,5 +1,63 @@
--- Hieu Hub Script - Fixed Version
-print("Loading Hieu Hub...")
+-- Hieu Hub Script with Lethal Dash
+print("Loading Hieu Hub with Lethal Dash...")
+
+-- Services
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+-- Lethal Dash Settings
+local dashSettings = {
+    enabled = false,
+    dashSpeed = 150,
+    dashKey = Enum.KeyCode.M,
+    cooldown = 0.5,
+    dashDistance = 50
+}
+
+local canDash = true
+local isDashing = false
+
+-- Lethal Dash Functions
+local function performDash()
+    if not canDash or not dashSettings.enabled or isDashing then return end
+    
+    canDash = false
+    isDashing = true
+    
+    local direction = rootPart.CFrame.LookVector
+    local bodyVelocity = Instance.new("BodyVelocity")
+    bodyVelocity.Velocity = direction * dashSettings.dashSpeed
+    bodyVelocity.MaxForce = Vector3.new(100000, 0, 100000)
+    bodyVelocity.Parent = rootPart
+    
+    -- Visual effect
+    local trail = Instance.new("Trail")
+    local att0 = Instance.new("Attachment", rootPart)
+    local att1 = Instance.new("Attachment", rootPart)
+    att1.Position = Vector3.new(0, 0, 0)
+    trail.Attachment0 = att0
+    trail.Attachment1 = att1
+    trail.Color = ColorSequence.new(Color3.fromRGB(255, 215, 0))
+    trail.Lifetime = 0.5
+    trail.Parent = rootPart
+    
+    wait(0.15)
+    bodyVelocity:Destroy()
+    isDashing = false
+    
+    wait(dashSettings.cooldown)
+    canDash = true
+    
+    game:GetService("Debris"):AddItem(trail, 0.5)
+    game:GetService("Debris"):AddItem(att0, 0.5)
+    game:GetService("Debris"):AddItem(att1, 0.5)
+end
 
 -- Tạo ScreenGui
 local ScreenGui = Instance.new("ScreenGui")
@@ -379,9 +437,26 @@ TechScroll.Parent = TechContent
 TechScroll.BackgroundTransparency = 1
 TechScroll.BorderSizePixel = 0
 TechScroll.Size = UDim2.new(1, 0, 1, 0)
-TechScroll.CanvasSize = UDim2.new(0, 0, 0, 500)
+TechScroll.CanvasSize = UDim2.new(0, 0, 0, 565)
 TechScroll.ScrollBarThickness = 6
 TechScroll.ScrollBarImageColor3 = Color3.fromRGB(50, 150, 255)
+
+-- LETHAL DASH BUTTON (Đầu tiên trong Tech tab với màu vàng chàm)
+local LethalDashButton = Instance.new("TextButton")
+LethalDashButton.Name = "LethalDashButton"
+LethalDashButton.Parent = TechScroll
+LethalDashButton.BackgroundColor3 = Color3.fromRGB(255, 215, 0) -- Màu vàng chàm
+LethalDashButton.BorderSizePixel = 0
+LethalDashButton.Position = UDim2.new(0, 0, 0, 0)
+LethalDashButton.Size = UDim2.new(1, 0, 0, 55)
+LethalDashButton.Font = Enum.Font.GothamBold
+LethalDashButton.Text = "⚡ Lethal Dash [OFF]"
+LethalDashButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+LethalDashButton.TextSize = 16
+
+local LethalDashCorner = Instance.new("UICorner")
+LethalDashCorner.CornerRadius = UDim.new(0, 8)
+LethalDashCorner.Parent = LethalDashButton
 
 -- GLACIER Button
 local GlacierButton = Instance.new("TextButton")
@@ -389,7 +464,7 @@ GlacierButton.Name = "GlacierButton"
 GlacierButton.Parent = TechScroll
 GlacierButton.BackgroundColor3 = Color3.fromRGB(100, 200, 255)
 GlacierButton.BorderSizePixel = 0
-GlacierButton.Position = UDim2.new(0, 0, 0, 0)
+GlacierButton.Position = UDim2.new(0, 0, 0, 65)
 GlacierButton.Size = UDim2.new(1, 0, 0, 55)
 GlacierButton.Font = Enum.Font.GothamBold
 GlacierButton.Text = "❄️ GLACIER"
@@ -406,7 +481,7 @@ AutoBlockButton.Name = "AutoBlockButton"
 AutoBlockButton.Parent = TechScroll
 AutoBlockButton.BackgroundColor3 = Color3.fromRGB(255, 100, 100)
 AutoBlockButton.BorderSizePixel = 0
-AutoBlockButton.Position = UDim2.new(0, 0, 0, 65)
+AutoBlockButton.Position = UDim2.new(0, 0, 0, 130)
 AutoBlockButton.Size = UDim2.new(1, 0, 0, 55)
 AutoBlockButton.Font = Enum.Font.GothamBold
 AutoBlockButton.Text = "🛡️ Auto Block & Aimbot"
@@ -423,7 +498,7 @@ ATrainButton.Name = "ATrainButton"
 ATrainButton.Parent = TechScroll
 ATrainButton.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
 ATrainButton.BorderSizePixel = 0
-ATrainButton.Position = UDim2.new(0, 0, 0, 130)
+ATrainButton.Position = UDim2.new(0, 0, 0, 195)
 ATrainButton.Size = UDim2.new(1, 0, 0, 55)
 ATrainButton.Font = Enum.Font.GothamBold
 ATrainButton.Text = "⚡ A-Train"
@@ -440,7 +515,7 @@ LimitlessButton.Name = "LimitlessButton"
 LimitlessButton.Parent = TechScroll
 LimitlessButton.BackgroundColor3 = Color3.fromRGB(138, 43, 226)
 LimitlessButton.BorderSizePixel = 0
-LimitlessButton.Position = UDim2.new(0, 0, 0, 195)
+LimitlessButton.Position = UDim2.new(0, 0, 0, 260)
 LimitlessButton.Size = UDim2.new(1, 0, 0, 55)
 LimitlessButton.Font = Enum.Font.GothamBold
 LimitlessButton.Text = "♾️ Limitless Legacy"
@@ -457,7 +532,7 @@ PhantasmButton.Name = "PhantasmButton"
 PhantasmButton.Parent = TechScroll
 PhantasmButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 PhantasmButton.BorderSizePixel = 0
-PhantasmButton.Position = UDim2.new(0, 0, 0, 260)
+PhantasmButton.Position = UDim2.new(0, 0, 0, 325)
 PhantasmButton.Size = UDim2.new(1, 0, 0, 55)
 PhantasmButton.Font = Enum.Font.GothamBold
 PhantasmButton.Text = "👻 Phantasm"
@@ -474,7 +549,7 @@ ChainsawButton.Name = "ChainsawButton"
 ChainsawButton.Parent = TechScroll
 ChainsawButton.BackgroundColor3 = Color3.fromRGB(220, 20, 60)
 ChainsawButton.BorderSizePixel = 0
-ChainsawButton.Position = UDim2.new(0, 0, 0, 325)
+ChainsawButton.Position = UDim2.new(0, 0, 0, 390)
 ChainsawButton.Size = UDim2.new(1, 0, 0, 55)
 ChainsawButton.Font = Enum.Font.GothamBold
 ChainsawButton.Text = "🪚 Chainsaw Man"
@@ -491,7 +566,7 @@ TrashcanButton.Name = "TrashcanButton"
 TrashcanButton.Parent = TechScroll
 TrashcanButton.BackgroundColor3 = Color3.fromRGB(128, 128, 128)
 TrashcanButton.BorderSizePixel = 0
-TrashcanButton.Position = UDim2.new(0, 0, 0, 390)
+TrashcanButton.Position = UDim2.new(0, 0, 0, 455)
 TrashcanButton.Size = UDim2.new(1, 0, 0, 55)
 TrashcanButton.Font = Enum.Font.GothamBold
 TrashcanButton.Text = "🗑️ Trashcan Man"
@@ -500,495 +575,4 @@ TrashcanButton.TextSize = 16
 
 local TrashcanCorner = Instance.new("UICorner")
 TrashcanCorner.CornerRadius = UDim.new(0, 8)
-TrashcanCorner.Parent = TrashcanButton
-
--- MinhNhat Hub Button (moved to bottom)
-local MinhNhatButton = Instance.new("TextButton")
-MinhNhatButton.Name = "MinhNhatButton"
-MinhNhatButton.Parent = TechScroll
-MinhNhatButton.BackgroundColor3 = Color3.fromRGB(255, 50, 150)
-MinhNhatButton.BorderSizePixel = 0
-MinhNhatButton.Position = UDim2.new(0, 0, 0, 455)
-MinhNhatButton.Size = UDim2.new(1, 0, 0, 55)
-MinhNhatButton.Font = Enum.Font.GothamBold
-MinhNhatButton.Text = "💻 MinhNhat HUB V9"
-MinhNhatButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-MinhNhatButton.TextSize = 16
-
-local MinhNhatCorner = Instance.new("UICorner")
-MinhNhatCorner.CornerRadius = UDim.new(0, 8)
-MinhNhatCorner.Parent = MinhNhatButton
-
--- Misc Content (Tab 4)
-local MiscContent = Instance.new("Frame")
-MiscContent.Name = "MiscContent"
-MiscContent.Parent = ContentFrame
-MiscContent.BackgroundTransparency = 1
-MiscContent.Size = UDim2.new(1, 0, 1, 0)
-MiscContent.Visible = false
-
--- Discord Info Frame
-local DiscordFrame = Instance.new("Frame")
-DiscordFrame.Name = "DiscordFrame"
-DiscordFrame.Parent = MiscContent
-DiscordFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
-DiscordFrame.BorderSizePixel = 0
-DiscordFrame.Position = UDim2.new(0, 0, 0, 0)
-DiscordFrame.Size = UDim2.new(1, 0, 0, 90)
-
-local DiscordFrameCorner = Instance.new("UICorner")
-DiscordFrameCorner.CornerRadius = UDim.new(0, 10)
-DiscordFrameCorner.Parent = DiscordFrame
-
--- Discord Icon/Title
-local DiscordTitle = Instance.new("TextLabel")
-DiscordTitle.Name = "DiscordTitle"
-DiscordTitle.Parent = DiscordFrame
-DiscordTitle.BackgroundTransparency = 1
-DiscordTitle.Position = UDim2.new(0, 15, 0, 10)
-DiscordTitle.Size = UDim2.new(1, -30, 0, 25)
-DiscordTitle.Font = Enum.Font.GothamBold
-DiscordTitle.Text = "💬 Join Discord Server"
-DiscordTitle.TextColor3 = Color3.fromRGB(88, 101, 242)
-DiscordTitle.TextSize = 16
-DiscordTitle.TextXAlignment = Enum.TextXAlignment.Left
-
--- Discord Button
-local DiscordButton = Instance.new("TextButton")
-DiscordButton.Name = "DiscordButton"
-DiscordButton.Parent = DiscordFrame
-DiscordButton.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
-DiscordButton.BorderSizePixel = 0
-DiscordButton.Position = UDim2.new(0, 15, 0, 45)
-DiscordButton.Size = UDim2.new(1, -30, 0, 35)
-DiscordButton.Font = Enum.Font.GothamBold
-DiscordButton.Text = "📱 Copy Discord Link"
-DiscordButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-DiscordButton.TextSize = 15
-
-local DiscordBtnCorner = Instance.new("UICorner")
-DiscordBtnCorner.CornerRadius = UDim.new(0, 8)
-DiscordBtnCorner.Parent = DiscordButton
-
--- Theme Color Frame
-local ThemeFrame = Instance.new("Frame")
-ThemeFrame.Name = "ThemeFrame"
-ThemeFrame.Parent = MiscContent
-ThemeFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
-ThemeFrame.BorderSizePixel = 0
-ThemeFrame.Position = UDim2.new(0, 0, 0, 100)
-ThemeFrame.Size = UDim2.new(1, 0, 0, 85)
-
-local ThemeFrameCorner = Instance.new("UICorner")
-ThemeFrameCorner.CornerRadius = UDim.new(0, 10)
-ThemeFrameCorner.Parent = ThemeFrame
-
--- Theme Title
-local ThemeTitle = Instance.new("TextLabel")
-ThemeTitle.Name = "ThemeTitle"
-ThemeTitle.Parent = ThemeFrame
-ThemeTitle.BackgroundTransparency = 1
-ThemeTitle.Position = UDim2.new(0, 15, 0, 10)
-ThemeTitle.Size = UDim2.new(1, -30, 0, 25)
-ThemeTitle.Font = Enum.Font.GothamBold
-ThemeTitle.Text = "🎨 Border Color Theme"
-ThemeTitle.TextColor3 = Color3.fromRGB(255, 100, 255)
-ThemeTitle.TextSize = 16
-ThemeTitle.TextXAlignment = Enum.TextXAlignment.Left
-
--- Color Buttons Container
-local ColorContainer = Instance.new("Frame")
-ColorContainer.Name = "ColorContainer"
-ColorContainer.Parent = ThemeFrame
-ColorContainer.BackgroundTransparency = 1
-ColorContainer.Position = UDim2.new(0, 15, 0, 40)
-ColorContainer.Size = UDim2.new(1, -30, 0, 35)
-
--- Color data
-local colors = {
-    {name = "Rainbow", color = nil, isRainbow = true},
-    {name = "Red", color = Color3.fromRGB(255, 50, 50)},
-    {name = "Blue", color = Color3.fromRGB(50, 150, 255)},
-    {name = "Green", color = Color3.fromRGB(50, 255, 100)},
-    {name = "Purple", color = Color3.fromRGB(180, 50, 255)},
-    {name = "Orange", color = Color3.fromRGB(255, 140, 0)},
-    {name = "Pink", color = Color3.fromRGB(255, 105, 180)},
-    {name = "Cyan", color = Color3.fromRGB(0, 255, 255)},
-}
-
-local colorButtons = {}
-local currentTheme = "Rainbow"
-local rainbowEnabled = true
-
-for i, colorData in ipairs(colors) do
-    local colorBtn = Instance.new("TextButton")
-    colorBtn.Name = colorData.name .. "Btn"
-    colorBtn.Parent = ColorContainer
-    colorBtn.BackgroundColor3 = colorData.color or Color3.fromRGB(100, 100, 100)
-    colorBtn.BorderSizePixel = 0
-    local spacing = 2
-    local btnWidth = (1 / #colors) - (spacing / #colors * (#colors - 1) / 430)
-    colorBtn.Size = UDim2.new(btnWidth, 0, 1, 0)
-    colorBtn.Position = UDim2.new((i - 1) * (btnWidth + spacing / 430), 0, 0, 0)
-    colorBtn.Text = ""
-    
-    local colorBtnCorner = Instance.new("UICorner")
-    colorBtnCorner.CornerRadius = UDim.new(0, 6)
-    colorBtnCorner.Parent = colorBtn
-    
-    -- Rainbow gradient for rainbow button
-    if colorData.isRainbow then
-        local gradient = Instance.new("UIGradient")
-        gradient.Parent = colorBtn
-        gradient.Color = ColorSequence.new{
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 0, 0)),
-            ColorSequenceKeypoint.new(0.17, Color3.fromRGB(255, 127, 0)),
-            ColorSequenceKeypoint.new(0.33, Color3.fromRGB(255, 255, 0)),
-            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 255, 0)),
-            ColorSequenceKeypoint.new(0.67, Color3.fromRGB(0, 0, 255)),
-            ColorSequenceKeypoint.new(0.83, Color3.fromRGB(75, 0, 130)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(148, 0, 211))
-        }
-        gradient.Rotation = 45
-    end
-    
-    -- Selection indicator
-    local selectionStroke = Instance.new("UIStroke")
-    selectionStroke.Parent = colorBtn
-    selectionStroke.Thickness = 3
-    selectionStroke.Color = Color3.fromRGB(255, 255, 255)
-    selectionStroke.Transparency = colorData.isRainbow and 0 or 1
-    selectionStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-    
-    colorButtons[colorData.name] = {btn = colorBtn, stroke = selectionStroke, data = colorData}
-end
-
--- Credits Frame
-local CreditsFrame = Instance.new("Frame")
-CreditsFrame.Name = "CreditsFrame"
-CreditsFrame.Parent = MiscContent
-CreditsFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
-CreditsFrame.BorderSizePixel = 0
-CreditsFrame.Position = UDim2.new(0, 0, 0, 195)
-CreditsFrame.Size = UDim2.new(1, 0, 0, 70)
-
-local CreditsFrameCorner = Instance.new("UICorner")
-CreditsFrameCorner.CornerRadius = UDim.new(0, 10)
-CreditsFrameCorner.Parent = CreditsFrame
-
--- Credits Title
-local CreditsTitle = Instance.new("TextLabel")
-CreditsTitle.Name = "CreditsTitle"
-CreditsTitle.Parent = CreditsFrame
-CreditsTitle.BackgroundTransparency = 1
-CreditsTitle.Position = UDim2.new(0, 15, 0, 10)
-CreditsTitle.Size = UDim2.new(1, -30, 0, 20)
-CreditsTitle.Font = Enum.Font.GothamBold
-CreditsTitle.Text = "⭐ Credits"
-CreditsTitle.TextColor3 = Color3.fromRGB(255, 215, 0)
-CreditsTitle.TextSize = 16
-CreditsTitle.TextXAlignment = Enum.TextXAlignment.Left
-
--- Credits Info
-local CreditsInfo = Instance.new("TextLabel")
-CreditsInfo.Name = "CreditsInfo"
-CreditsInfo.Parent = CreditsFrame
-CreditsInfo.BackgroundTransparency = 1
-CreditsInfo.Position = UDim2.new(0, 15, 0, 35)
-CreditsInfo.Size = UDim2.new(1, -30, 0, 30)
-CreditsInfo.Font = Enum.Font.Gotham
-CreditsInfo.Text = "Created by: Hieu | Version: 1.0 | Thanks for using! 💖"
-CreditsInfo.TextColor3 = Color3.fromRGB(200, 200, 200)
-CreditsInfo.TextSize = 12
-CreditsInfo.TextXAlignment = Enum.TextXAlignment.Left
-CreditsInfo.TextYAlignment = Enum.TextYAlignment.Top
-
--- Functions
--- Tech Tab Buttons
-GlacierButton.MouseButton1Click:Connect(function()
-    local success, err = pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/xVicity/GLACIER/main/LATEST.lua"))()
-    end)
-    if success then
-        print("GLACIER loaded successfully!")
-    else
-        warn("Error loading GLACIER: " .. tostring(err))
-    end
-end)
-
-AutoBlockButton.MouseButton1Click:Connect(function()
-    local success, err = pcall(function()
-        loadstring(game:HttpGet("https://rawscripts.net/raw/The-Strongest-Battlegrounds-Auto-block-and-aimbot-17492"))()
-    end)
-    if success then
-        print("Auto Block & Aimbot loaded successfully!")
-    else
-        warn("Error loading Auto Block: " .. tostring(err))
-    end
-end)
-
-ATrainButton.MouseButton1Click:Connect(function()
-    local success, err = pcall(function()
-        loadstring(game:HttpGet("https://rawscripts.net/raw/The-Strongest-Battlegrounds-A-Train-22155"))()
-    end)
-    if success then
-        print("A-Train loaded successfully!")
-    else
-        warn("Error loading A-Train: " .. tostring(err))
-    end
-end)
-
-LimitlessButton.MouseButton1Click:Connect(function()
-    local success, err = pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Wi-sp/Limitless-legacy/refs/heads/main/GUI"))()
-    end)
-    if success then
-        print("Limitless Legacy loaded successfully!")
-    else
-        warn("Error loading Limitless Legacy: " .. tostring(err))
-    end
-end)
-
-PhantasmButton.MouseButton1Click:Connect(function()
-    local success, err = pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/ATrainz/Phantasm/refs/heads/main/Games/TSB.lua"))()
-    end)
-    if success then
-        print("Phantasm loaded successfully!")
-    else
-        warn("Error loading Phantasm: " .. tostring(err))
-    end
-end)
-
-ChainsawButton.MouseButton1Click:Connect(function()
-    local success, err = pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/yes1nt/yes/refs/heads/main/CHAINSAW%20MAN/Chainsaw%20Man%20(Obfuscated).txt"))()
-    end)
-    if success then
-        print("Chainsaw Man loaded successfully!")
-    else
-        warn("Error loading Chainsaw Man: " .. tostring(err))
-    end
-end)
-
-TrashcanButton.MouseButton1Click:Connect(function()
-    local success, err = pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/yes1nt/yes/refs/heads/main/Trashcan%20Man", true))()
-    end)
-    if success then
-        print("Trashcan Man loaded successfully!")
-    else
-        warn("Error loading Trashcan Man: " .. tostring(err))
-    end
-end)
-
--- MinhNhat Hub Button
-MinhNhatButton.MouseButton1Click:Connect(function()
-    local success, err = pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/MinhNhatHUB/MinhNhat/refs/heads/main/MinhNhatHUB%20V9.lua"))()
-    end)
-    if success then
-        print("MinhNhat HUB V9 loaded successfully!")
-    else
-        warn("Error loading MinhNhat HUB: " .. tostring(err))
-    end
-end)
-
--- Color theme switching
-for name, btnData in pairs(colorButtons) do
-    btnData.btn.MouseButton1Click:Connect(function()
-        -- Update selection
-        for n, b in pairs(colorButtons) do
-            b.stroke.Transparency = 1
-        end
-        btnData.stroke.Transparency = 0
-        
-        currentTheme = name
-        rainbowEnabled = btnData.data.isRainbow
-        
-        if not rainbowEnabled then
-            -- Apply static color
-            pcall(function()
-                RainbowBorder.Color = btnData.data.color
-                MainRainbowBorder.Color = btnData.data.color
-            end)
-        end
-        
-        print("Theme changed to: " .. name)
-    end)
-end
-
-DiscordButton.MouseButton1Click:Connect(function()
-    local success = pcall(function()
-        setclipboard("https://discord.gg/6z3kYDyu")
-    end)
-    if success then
-        DiscordButton.Text = "✅ Link Copied!"
-        wait(2)
-        DiscordButton.Text = "📱 Copy Discord Link"
-    else
-        DiscordButton.Text = "❌ Clipboard not supported"
-        wait(2)
-        DiscordButton.Text = "📱 Copy Discord Link"
-    end
-end)
-
-InvisibleButton.MouseButton1Click:Connect(function()
-    local success, err = pcall(function()
-        loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Invisible-Script-70877"))()
-    end)
-    if success then
-        print("Invisible Script loaded!")
-    else
-        warn("Error loading Invisible: " .. tostring(err))
-    end
-end)
-
-EdgeIYButton.MouseButton1Click:Connect(function()
-    local success, err = pcall(function()
-        loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-    end)
-    if success then
-        print("EdgeIY loaded!")
-    else
-        warn("Error loading EdgeIY: " .. tostring(err))
-    end
-end)
-
-FlyButton.MouseButton1Click:Connect(function()
-    local success, err = pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
-    end)
-    if success then
-        print("Fly Script loaded!")
-    else
-        warn("Error loading Fly: " .. tostring(err))
-    end
-end)
-
-SubmitKeyButton.MouseButton1Click:Connect(function()
-    if KeyTextBox.Text == correctKey then
-        keyEntered = true
-        KeyFrame.Visible = false
-        MainFrame.Visible = true
-        print("Key accepted! Welcome to Hieu Hub!")
-    else
-        KeyTextBox.Text = ""
-        KeyTextBox.PlaceholderText = "Wrong key! Try again..."
-        wait(1)
-        KeyTextBox.PlaceholderText = "Enter key here..."
-    end
-end)
-
-CloseButton.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()
-end)
-
-ExecuteButton.MouseButton1Click:Connect(function()
-    local code = TextBox.Text
-    if code ~= "" then
-        local success, err = pcall(function()
-            loadstring(code)()
-        end)
-        if success then
-            print("Script executed successfully!")
-        else
-            warn("Error: " .. tostring(err))
-        end
-    end
-end)
-
--- Tab Switching
-ScriptsTab.MouseButton1Click:Connect(function()
-    ScriptsContent.Visible = true
-    ExecutorContent.Visible = false
-    TechContent.Visible = false
-    MiscContent.Visible = false
-    ScriptsTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
-    ScriptsTab.TextColor3 = Color3.fromRGB(255, 255, 255)
-    ExecutorTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    ExecutorTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-    TechTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    TechTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-    MiscTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    MiscTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-end)
-
-ExecutorTab.MouseButton1Click:Connect(function()
-    ScriptsContent.Visible = false
-    ExecutorContent.Visible = true
-    TechContent.Visible = false
-    MiscContent.Visible = false
-    ExecutorTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
-    ExecutorTab.TextColor3 = Color3.fromRGB(255, 255, 255)
-    ScriptsTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    ScriptsTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-    TechTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    TechTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-    MiscTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    MiscTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-end)
-
-TechTab.MouseButton1Click:Connect(function()
-    ScriptsContent.Visible = false
-    ExecutorContent.Visible = false
-    TechContent.Visible = true
-    MiscContent.Visible = false
-    TechTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
-    TechTab.TextColor3 = Color3.fromRGB(255, 255, 255)
-    ScriptsTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    ScriptsTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-    ExecutorTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    ExecutorTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-    MiscTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    MiscTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-end)
-
-MiscTab.MouseButton1Click:Connect(function()
-    ScriptsContent.Visible = false
-    ExecutorContent.Visible = false
-    TechContent.Visible = false
-    MiscContent.Visible = true
-    MiscTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
-    MiscTab.TextColor3 = Color3.fromRGB(255, 255, 255)
-    ScriptsTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    ScriptsTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-    ExecutorTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    ExecutorTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-    TechTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    TechTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-end)
-
--- Toggle với phím K
-local UserInputService = game:GetService("UserInputService")
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if not gameProcessed then
-        if input.KeyCode == Enum.KeyCode.K then
-            if keyEntered then
-                MainFrame.Visible = not MainFrame.Visible
-            else
-                KeyFrame.Visible = not KeyFrame.Visible
-            end
-        end
-    end
-end)
-
--- Rainbow Border Animation
-task.spawn(function()
-    local hue = 0
-    while task.wait(0.03) do
-        if rainbowEnabled then
-            hue = hue + 0.01
-            if hue > 1 then hue = 0 end
-            local color = Color3.fromHSV(hue, 1, 1)
-            pcall(function()
-                RainbowBorder.Color = color
-                MainRainbowBorder.Color = color
-            end)
-        end
-    end
-end)
-
-print("Hieu Hub loaded successfully!")
-print("Key: Hieuhub20")
-print("Press K to toggle GUI")
+TrashcanCorner.Parent = Trashcan
