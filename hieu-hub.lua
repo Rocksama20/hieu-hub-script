@@ -1,9 +1,10 @@
--- Hieu Hub with Lethal Dash - Complete Version
+-- Hieu Hub with Lethal Dash - Fixed Version
 print("Loading Hieu Hub with Lethal Dash...")
 
 -- Services
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
 
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
@@ -44,17 +45,25 @@ local function performDash()
     trail.Lifetime = 0.5
     trail.Parent = rootPart
     
-    wait(0.15)
+    task.wait(0.15)
     bodyVelocity:Destroy()
     isDashing = false
     
-    wait(dashSettings.cooldown)
+    task.wait(dashSettings.cooldown)
     canDash = true
     
     game:GetService("Debris"):AddItem(trail, 0.5)
     game:GetService("Debris"):AddItem(att0, 0.5)
     game:GetService("Debris"):AddItem(att1, 0.5)
 end
+
+-- Input Handler for Lethal Dash
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    if input.KeyCode == dashSettings.dashKey then
+        performDash()
+    end
+end)
 
 -- GUI Creation
 local ScreenGui = Instance.new("ScreenGui")
@@ -409,12 +418,24 @@ LethalDashButton.BorderSizePixel = 0
 LethalDashButton.Position = UDim2.new(0, 0, 0, 0)
 LethalDashButton.Size = UDim2.new(1, 0, 0, 55)
 LethalDashButton.Font = Enum.Font.GothamBold
-LethalDashButton.Text = "⚡ Lethal Dash [OFF]"
+LethalDashButton.Text = "⚡ Lethal Dash [OFF] - Press M"
 LethalDashButton.TextColor3 = Color3.fromRGB(0, 0, 0)
 LethalDashButton.TextSize = 16
 local LethalDashCorner = Instance.new("UICorner")
 LethalDashCorner.CornerRadius = UDim.new(0, 8)
 LethalDashCorner.Parent = LethalDashButton
+
+-- Lethal Dash Button Click Handler
+LethalDashButton.MouseButton1Click:Connect(function()
+    dashSettings.enabled = not dashSettings.enabled
+    if dashSettings.enabled then
+        LethalDashButton.Text = "⚡ Lethal Dash [ON] - Press M"
+        LethalDashButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+    else
+        LethalDashButton.Text = "⚡ Lethal Dash [OFF] - Press M"
+        LethalDashButton.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
+    end
+end)
 
 local techButtons = {
     {name = "GLACIER", y = 65, color = Color3.fromRGB(100, 200, 255), text = "❄️ GLACIER", url = "https://raw.githubusercontent.com/xVicity/GLACIER/main/LATEST.lua"},
@@ -511,21 +532,129 @@ ThemeTitle.TextColor3 = Color3.fromRGB(255, 100, 255)
 ThemeTitle.TextSize = 16
 ThemeTitle.TextXAlignment = Enum.TextXAlignment.Left
 
-local ColorContainer = Instance.new("Frame")
-ColorContainer.Parent = ThemeFrame
-ColorContainer.BackgroundTransparency = 1
-ColorContainer.Position = UDim2.new(0, 15, 0, 40)
-ColorContainer.Size = UDim2.new(1, -30, 0, 35)
+-- Rainbow Animation
+local isRainbow = true
+RunService.RenderStepped:Connect(function()
+    if isRainbow then
+        local hue = tick() % 5 / 5
+        local color = Color3.fromHSV(hue, 1, 1)
+        RainbowBorder.Color = color
+        MainRainbowBorder.Color = color
+    end
+end)
 
-local colors = {
-    {name = "Rainbow", color = nil, isRainbow = true},
-    {name = "Red", color = Color3.fromRGB(255, 50, 50)},
-    {name = "Blue", color = Color3.fromRGB(50, 150, 255)},
-    {name = "Green", color = Color3.fromRGB(50, 255, 100)},
-    {name = "Purple", color = Color3.fromRGB(180, 50, 255)},
-    {name = "Orange", color = Color3.fromRGB(255, 140, 0)},
-    {name = "Pink", color = Color3.fromRGB(255, 105, 180)},
-    {name = "Cyan", color = Color3.fromRGB(0, 255, 255)},
-}
+-- Tab Switching Functions
+local function switchTab(tab)
+    ScriptsContent.Visible = false
+    ExecutorContent.Visible = false
+    TechContent.Visible = false
+    MiscContent.Visible = false
+    
+    ScriptsTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    ScriptsTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+    ExecutorTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    ExecutorTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+    TechTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    TechTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+    MiscTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    MiscTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+    
+    if tab == "Scripts" then
+        ScriptsContent.Visible = true
+        ScriptsTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
+        ScriptsTab.TextColor3 = Color3.fromRGB(255, 255, 255)
+    elseif tab == "Executor" then
+        ExecutorContent.Visible = true
+        ExecutorTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
+        ExecutorTab.TextColor3 = Color3.fromRGB(255, 255, 255)
+    elseif tab == "Tech" then
+        TechContent.Visible = true
+        TechTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
+        TechTab.TextColor3 = Color3.fromRGB(255, 255, 255)
+    elseif tab == "Misc" then
+        MiscContent.Visible = true
+        MiscTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
+        MiscTab.TextColor3 = Color3.fromRGB(255, 255, 255)
+    end
+end
 
-local colorButtons =
+-- Button Click Events
+SubmitKeyButton.MouseButton1Click:Connect(function()
+    if KeyTextBox.Text == correctKey then
+        keyEntered = true
+        KeyFrame.Visible = false
+        MainFrame.Visible = true
+        print("Key accepted! Hieu Hub loaded.")
+    else
+        KeyTextBox.Text = ""
+        KeyTextBox.PlaceholderText = "Wrong key! Try again..."
+        task.wait(2)
+        KeyTextBox.PlaceholderText = "Enter key here..."
+    end
+end)
+
+CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+ScriptsTab.MouseButton1Click:Connect(function()
+    switchTab("Scripts")
+end)
+
+ExecutorTab.MouseButton1Click:Connect(function()
+    switchTab("Executor")
+end)
+
+TechTab.MouseButton1Click:Connect(function()
+    switchTab("Tech")
+end)
+
+MiscTab.MouseButton1Click:Connect(function()
+    switchTab("Misc")
+end)
+
+ExecuteButton.MouseButton1Click:Connect(function()
+    pcall(function()
+        loadstring(TextBox.Text)()
+    end)
+end)
+
+InvisibleButton.MouseButton1Click:Connect(function()
+    pcall(function()
+        for _, part in pairs(character:GetDescendants()) do
+            if part:IsA("BasePart") or part:IsA("Decal") then
+                part.Transparency = 1
+            end
+        end
+    end)
+end)
+
+EdgeIYButton.MouseButton1Click:Connect(function()
+    pcall(function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+    end)
+end)
+
+FlyButton.MouseButton1Click:Connect(function()
+    pcall(function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/XNEOFF/FlyGuiScript/main/FlyGuiScript.txt'))()
+    end)
+end)
+
+DiscordButton.MouseButton1Click:Connect(function()
+    setclipboard("discord.gg/yourinvite")
+    DiscordButton.Text = "✅ Link Copied!"
+    task.wait(2)
+    DiscordButton.Text = "📱 Copy Discord Link"
+end)
+
+-- Character Respawn Handler
+player.CharacterAdded:Connect(function(newChar)
+    character = newChar
+    humanoid = newChar:WaitForChild("Humanoid")
+    rootPart = newChar:WaitForChild("HumanoidRootPart")
+end)
+
+print("Hieu Hub loaded successfully!")
+print("Key: Hieuhub20")
+print("Lethal Dash: Press M to dash when enabled")
