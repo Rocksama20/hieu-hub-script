@@ -1,5 +1,6 @@
--- Hieu Hub with Lethal Dash - Fixed Version
-print("Loading Hieu Hub with Lethal Dash...")
+-- Hieu Hub V2 with Lethal Dash - Fixed Version
+-- By Mr_Rock20
+print("Loading Hieu Hub V2 by Mr_Rock20...")
 
 -- Services
 local Players = game:GetService("Players")
@@ -15,55 +16,80 @@ local rootPart = character:WaitForChild("HumanoidRootPart")
 local dashSettings = {
     enabled = false,
     dashSpeed = 150,
-    dashKey = Enum.KeyCode.M,
-    cooldown = 0.5
+    dashDuration = 0.15,
+    cooldown = 0.5,
+    dashKey = Enum.KeyCode.M
 }
 
 local canDash = true
 local isDashing = false
+local dashConnection = nil
 
--- Lethal Dash Function
+-- Lethal Dash Function (Improved)
 local function performDash()
     if not canDash or not dashSettings.enabled or isDashing then return end
+    if not rootPart or not rootPart.Parent then return end
     
     canDash = false
     isDashing = true
     
-    local direction = rootPart.CFrame.LookVector
+    -- Get movement direction from humanoid move direction or camera
+    local moveDirection = humanoid.MoveDirection
+    if moveDirection.Magnitude < 0.1 then
+        moveDirection = rootPart.CFrame.LookVector
+    end
+    
+    -- Create dash effect
     local bodyVelocity = Instance.new("BodyVelocity")
-    bodyVelocity.Velocity = direction * dashSettings.dashSpeed
+    bodyVelocity.Velocity = moveDirection * dashSettings.dashSpeed
     bodyVelocity.MaxForce = Vector3.new(100000, 0, 100000)
+    bodyVelocity.P = 10000
     bodyVelocity.Parent = rootPart
     
+    -- Create visual trail
     local trail = Instance.new("Trail")
-    local att0 = Instance.new("Attachment", rootPart)
-    local att1 = Instance.new("Attachment", rootPart)
+    local att0 = Instance.new("Attachment")
+    local att1 = Instance.new("Attachment")
+    
+    att0.Position = Vector3.new(0, 0, 0)
     att1.Position = Vector3.new(0, 0, 0)
+    att0.Parent = rootPart
+    att1.Parent = rootPart
+    
     trail.Attachment0 = att0
     trail.Attachment1 = att1
     trail.Color = ColorSequence.new(Color3.fromRGB(255, 215, 0))
+    trail.Transparency = NumberSequence.new({
+        NumberSequenceKeypoint.new(0, 0.5),
+        NumberSequenceKeypoint.new(1, 1)
+    })
     trail.Lifetime = 0.5
+    trail.MinLength = 0
     trail.Parent = rootPart
     
-    task.wait(0.15)
-    bodyVelocity:Destroy()
+    -- End dash after duration
+    task.wait(dashSettings.dashDuration)
+    
+    if bodyVelocity and bodyVelocity.Parent then
+        bodyVelocity:Destroy()
+    end
     isDashing = false
     
+    -- Cooldown
     task.wait(dashSettings.cooldown)
     canDash = true
     
-    game:GetService("Debris"):AddItem(trail, 0.5)
-    game:GetService("Debris"):AddItem(att0, 0.5)
-    game:GetService("Debris"):AddItem(att1, 0.5)
-end
-
--- Input Handler for Lethal Dash
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end
-    if input.KeyCode == dashSettings.dashKey then
-        performDash()
+    -- Cleanup trail
+    if trail and trail.Parent then
+        game:GetService("Debris"):AddItem(trail, 0.5)
     end
-end)
+    if att0 and att0.Parent then
+        game:GetService("Debris"):AddItem(att0, 0.5)
+    end
+    if att1 and att1.Parent then
+        game:GetService("Debris"):AddItem(att1, 0.5)
+    end
+end
 
 -- GUI Creation
 local ScreenGui = Instance.new("ScreenGui")
@@ -87,7 +113,7 @@ local ContentFrame = Instance.new("Frame")
 local correctKey = "Hieuhub20"
 local keyEntered = false
 
-ScreenGui.Name = "HieuHub"
+ScreenGui.Name = "HieuHubV2"
 ScreenGui.Parent = game:GetService("CoreGui")
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.ResetOnSpawn = false
@@ -130,7 +156,7 @@ KeyTitle.BackgroundTransparency = 1
 KeyTitle.Position = UDim2.new(0, 10, 0, 0)
 KeyTitle.Size = UDim2.new(1, -20, 1, 0)
 KeyTitle.Font = Enum.Font.GothamBold
-KeyTitle.Text = "Hieu Hub - Enter Key"
+KeyTitle.Text = "Hieu Hub V2 - Enter Key"
 KeyTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
 KeyTitle.TextSize = 16
 KeyTitle.TextXAlignment = Enum.TextXAlignment.Center
@@ -211,7 +237,7 @@ Title.BackgroundTransparency = 1
 Title.Position = UDim2.new(0, 10, 0, 0)
 Title.Size = UDim2.new(0.8, 0, 1, 0)
 Title.Font = Enum.Font.GothamBold
-Title.Text = "Hieu Hub"
+Title.Text = "Hieu Hub V2"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextSize = 18
 Title.TextXAlignment = Enum.TextXAlignment.Left
@@ -420,22 +446,10 @@ LethalDashButton.Size = UDim2.new(1, 0, 0, 55)
 LethalDashButton.Font = Enum.Font.GothamBold
 LethalDashButton.Text = "⚡ Lethal Dash [OFF] - Press M"
 LethalDashButton.TextColor3 = Color3.fromRGB(0, 0, 0)
-LethalDashButton.TextSize = 16
+LethalDashButton.TextSize = 15
 local LethalDashCorner = Instance.new("UICorner")
 LethalDashCorner.CornerRadius = UDim.new(0, 8)
 LethalDashCorner.Parent = LethalDashButton
-
--- Lethal Dash Button Click Handler
-LethalDashButton.MouseButton1Click:Connect(function()
-    dashSettings.enabled = not dashSettings.enabled
-    if dashSettings.enabled then
-        LethalDashButton.Text = "⚡ Lethal Dash [ON] - Press M"
-        LethalDashButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-    else
-        LethalDashButton.Text = "⚡ Lethal Dash [OFF] - Press M"
-        LethalDashButton.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
-    end
-end)
 
 local techButtons = {
     {name = "GLACIER", y = 65, color = Color3.fromRGB(100, 200, 255), text = "❄️ GLACIER", url = "https://raw.githubusercontent.com/xVicity/GLACIER/main/LATEST.lua"},
@@ -477,10 +491,54 @@ MiscContent.BackgroundTransparency = 1
 MiscContent.Size = UDim2.new(1, 0, 1, 0)
 MiscContent.Visible = false
 
+-- Creator Info Frame
+local CreatorFrame = Instance.new("Frame")
+CreatorFrame.Parent = MiscContent
+CreatorFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+CreatorFrame.BorderSizePixel = 0
+CreatorFrame.Size = UDim2.new(1, 0, 0, 75)
+local CreatorFrameCorner = Instance.new("UICorner")
+CreatorFrameCorner.CornerRadius = UDim.new(0, 10)
+CreatorFrameCorner.Parent = CreatorFrame
+
+local CreatorIcon = Instance.new("TextLabel")
+CreatorIcon.Parent = CreatorFrame
+CreatorIcon.BackgroundTransparency = 1
+CreatorIcon.Position = UDim2.new(0, 15, 0, 10)
+CreatorIcon.Size = UDim2.new(0, 50, 0, 50)
+CreatorIcon.Font = Enum.Font.GothamBold
+CreatorIcon.Text = "👨‍💻"
+CreatorIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
+CreatorIcon.TextSize = 35
+
+local CreatorTitle = Instance.new("TextLabel")
+CreatorTitle.Parent = CreatorFrame
+CreatorTitle.BackgroundTransparency = 1
+CreatorTitle.Position = UDim2.new(0, 75, 0, 15)
+CreatorTitle.Size = UDim2.new(1, -90, 0, 20)
+CreatorTitle.Font = Enum.Font.GothamBold
+CreatorTitle.Text = "Created by Mr_Rock20"
+CreatorTitle.TextColor3 = Color3.fromRGB(255, 215, 0)
+CreatorTitle.TextSize = 18
+CreatorTitle.TextXAlignment = Enum.TextXAlignment.Left
+
+local CreatorSubtitle = Instance.new("TextLabel")
+CreatorSubtitle.Parent = CreatorFrame
+CreatorSubtitle.BackgroundTransparency = 1
+CreatorSubtitle.Position = UDim2.new(0, 75, 0, 38)
+CreatorSubtitle.Size = UDim2.new(1, -90, 0, 18)
+CreatorSubtitle.Font = Enum.Font.Gotham
+CreatorSubtitle.Text = "Hieu Hub V2 - Premium Script Hub"
+CreatorSubtitle.TextColor3 = Color3.fromRGB(200, 200, 200)
+CreatorSubtitle.TextSize = 13
+CreatorSubtitle.TextXAlignment = Enum.TextXAlignment.Left
+
+-- Discord Frame
 local DiscordFrame = Instance.new("Frame")
 DiscordFrame.Parent = MiscContent
 DiscordFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
 DiscordFrame.BorderSizePixel = 0
+DiscordFrame.Position = UDim2.new(0, 0, 0, 85)
 DiscordFrame.Size = UDim2.new(1, 0, 0, 90)
 local DiscordFrameCorner = Instance.new("UICorner")
 DiscordFrameCorner.CornerRadius = UDim.new(0, 10)
@@ -492,169 +550,4 @@ DiscordTitle.BackgroundTransparency = 1
 DiscordTitle.Position = UDim2.new(0, 15, 0, 10)
 DiscordTitle.Size = UDim2.new(1, -30, 0, 25)
 DiscordTitle.Font = Enum.Font.GothamBold
-DiscordTitle.Text = "💬 Join Discord Server"
-DiscordTitle.TextColor3 = Color3.fromRGB(88, 101, 242)
-DiscordTitle.TextSize = 16
-DiscordTitle.TextXAlignment = Enum.TextXAlignment.Left
-
-local DiscordButton = Instance.new("TextButton")
-DiscordButton.Parent = DiscordFrame
-DiscordButton.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
-DiscordButton.BorderSizePixel = 0
-DiscordButton.Position = UDim2.new(0, 15, 0, 45)
-DiscordButton.Size = UDim2.new(1, -30, 0, 35)
-DiscordButton.Font = Enum.Font.GothamBold
-DiscordButton.Text = "📱 Copy Discord Link"
-DiscordButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-DiscordButton.TextSize = 15
-local DiscordBtnCorner = Instance.new("UICorner")
-DiscordBtnCorner.CornerRadius = UDim.new(0, 8)
-DiscordBtnCorner.Parent = DiscordButton
-
-local ThemeFrame = Instance.new("Frame")
-ThemeFrame.Parent = MiscContent
-ThemeFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
-ThemeFrame.BorderSizePixel = 0
-ThemeFrame.Position = UDim2.new(0, 0, 0, 100)
-ThemeFrame.Size = UDim2.new(1, 0, 0, 85)
-local ThemeFrameCorner = Instance.new("UICorner")
-ThemeFrameCorner.CornerRadius = UDim.new(0, 10)
-ThemeFrameCorner.Parent = ThemeFrame
-
-local ThemeTitle = Instance.new("TextLabel")
-ThemeTitle.Parent = ThemeFrame
-ThemeTitle.BackgroundTransparency = 1
-ThemeTitle.Position = UDim2.new(0, 15, 0, 10)
-ThemeTitle.Size = UDim2.new(1, -30, 0, 25)
-ThemeTitle.Font = Enum.Font.GothamBold
-ThemeTitle.Text = "🎨 Border Color Theme"
-ThemeTitle.TextColor3 = Color3.fromRGB(255, 100, 255)
-ThemeTitle.TextSize = 16
-ThemeTitle.TextXAlignment = Enum.TextXAlignment.Left
-
--- Rainbow Animation
-local isRainbow = true
-RunService.RenderStepped:Connect(function()
-    if isRainbow then
-        local hue = tick() % 5 / 5
-        local color = Color3.fromHSV(hue, 1, 1)
-        RainbowBorder.Color = color
-        MainRainbowBorder.Color = color
-    end
-end)
-
--- Tab Switching Functions
-local function switchTab(tab)
-    ScriptsContent.Visible = false
-    ExecutorContent.Visible = false
-    TechContent.Visible = false
-    MiscContent.Visible = false
-    
-    ScriptsTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    ScriptsTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-    ExecutorTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    ExecutorTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-    TechTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    TechTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-    MiscTab.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    MiscTab.TextColor3 = Color3.fromRGB(200, 200, 200)
-    
-    if tab == "Scripts" then
-        ScriptsContent.Visible = true
-        ScriptsTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
-        ScriptsTab.TextColor3 = Color3.fromRGB(255, 255, 255)
-    elseif tab == "Executor" then
-        ExecutorContent.Visible = true
-        ExecutorTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
-        ExecutorTab.TextColor3 = Color3.fromRGB(255, 255, 255)
-    elseif tab == "Tech" then
-        TechContent.Visible = true
-        TechTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
-        TechTab.TextColor3 = Color3.fromRGB(255, 255, 255)
-    elseif tab == "Misc" then
-        MiscContent.Visible = true
-        MiscTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
-        MiscTab.TextColor3 = Color3.fromRGB(255, 255, 255)
-    end
-end
-
--- Button Click Events
-SubmitKeyButton.MouseButton1Click:Connect(function()
-    if KeyTextBox.Text == correctKey then
-        keyEntered = true
-        KeyFrame.Visible = false
-        MainFrame.Visible = true
-        print("Key accepted! Hieu Hub loaded.")
-    else
-        KeyTextBox.Text = ""
-        KeyTextBox.PlaceholderText = "Wrong key! Try again..."
-        task.wait(2)
-        KeyTextBox.PlaceholderText = "Enter key here..."
-    end
-end)
-
-CloseButton.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()
-end)
-
-ScriptsTab.MouseButton1Click:Connect(function()
-    switchTab("Scripts")
-end)
-
-ExecutorTab.MouseButton1Click:Connect(function()
-    switchTab("Executor")
-end)
-
-TechTab.MouseButton1Click:Connect(function()
-    switchTab("Tech")
-end)
-
-MiscTab.MouseButton1Click:Connect(function()
-    switchTab("Misc")
-end)
-
-ExecuteButton.MouseButton1Click:Connect(function()
-    pcall(function()
-        loadstring(TextBox.Text)()
-    end)
-end)
-
-InvisibleButton.MouseButton1Click:Connect(function()
-    pcall(function()
-        for _, part in pairs(character:GetDescendants()) do
-            if part:IsA("BasePart") or part:IsA("Decal") then
-                part.Transparency = 1
-            end
-        end
-    end)
-end)
-
-EdgeIYButton.MouseButton1Click:Connect(function()
-    pcall(function()
-        loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-    end)
-end)
-
-FlyButton.MouseButton1Click:Connect(function()
-    pcall(function()
-        loadstring(game:HttpGet('https://raw.githubusercontent.com/XNEOFF/FlyGuiScript/main/FlyGuiScript.txt'))()
-    end)
-end)
-
-DiscordButton.MouseButton1Click:Connect(function()
-    setclipboard("discord.gg/yourinvite")
-    DiscordButton.Text = "✅ Link Copied!"
-    task.wait(2)
-    DiscordButton.Text = "📱 Copy Discord Link"
-end)
-
--- Character Respawn Handler
-player.CharacterAdded:Connect(function(newChar)
-    character = newChar
-    humanoid = newChar:WaitForChild("Humanoid")
-    rootPart = newChar:WaitForChild("HumanoidRootPart")
-end)
-
-print("Hieu Hub loaded successfully!")
-print("Key: Hieuhub20")
-print("Lethal Dash: Press M to dash when enabled")
+DiscordTitle.Text = "💬
